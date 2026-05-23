@@ -9,12 +9,23 @@ Desktop.ini
 .idea/
 *.swp
 *.swo
-*~
 
 # 临时文件
 *.tmp
 *.log
 *.bak
+
+# 敏感信息 / 环境配置
+.env
+.env.*
+*.env
+
+# 数据文件（防止敏感数据泄露）
+*.csv
+*.xlsx
+*.xls
+*.dat
+*.dmp
 
 # Python 缓存
 __pycache__/
