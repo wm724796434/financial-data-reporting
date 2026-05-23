@@ -105,94 +105,15 @@
 
 ## 数据源审计
 
+审计原则、方法、命令和最新结果见 **[devops/project-audit](../skill/devops/project-audit)** 技能。
+
 ### 审计原则
 
-原则上所有数据应从**监管集市（`SMTMODS` schema）** 取数。`SMTMODS` 是经过数据治理的统一数据源，直接引用上游业务系统或其他程序的输出接口表会导致数据链路不清晰、耦合度高。
-
-### 审计方法
-
-当需要审计数据源合规性时，执行以下步骤：
-
-1. **扫描全部源码文件**，提取所有 FROM/JOIN/INSERT/MERGE 语句中的表引用
-2. **按 schema 分类**：
-   - `SMTMODS.xxx` → ✅ 合规（监管集市）
-   - `CBRC_DATACORE.xxx` → ✅ 合规（银保监集市）
-   - `PBOCD_DATACORE.xxx` → ⚠️ 目标/中间表，需判断是否为数据源或自身输出
-   - 裸表名（无 schema 前缀） → ❓ 需逐个排查来源
-3. **标记违规程序**：完全不引用 `SMTMODS` 的程序
-4. **检查引用链**：使用接口表（`JS_xxx`）作为数据源的程序，应改为直接从 SMTMODS 取数
-
-### 审计命令参考
-
-```bash
-# 查找所有带 schema 前缀的表引用
-grep -rohP '\b[A-Z_]+\.\w+' --include="*.prc" --include="*.sql" . | sort -u
-
-# 提取 FROM/JOIN 中的 SMTMODS 表
-grep -rohP '(FROM|JOIN)\s+SMTMODS\.\w+' --include="*.prc" --include="*.sql" .
-
-# 提取 FROM/JOIN 中的裸表名（无 schema 前缀）
-grep -rohP '(FROM|JOIN)\s+(\w+)\s' --include="*.prc" --include="*.sql" .
-
-# 查找完全不引用 SMTMODS 的程序
-for f in $(find . -name "*.prc" -o -name "*.sql"); do
-    if [ "$(grep -c 'SMTMODS\.' "$f")" -eq 0 ]; then echo "$f"; fi
-done
-```
-
-## 分类标准
-
-| 标记 | 含义 | 处理方式 |
-|------|------|---------|
-| ✅ 合规 | FROM/JOIN 直接引用 `SMTMODS.表名` | 通过 |
-| ⚠️ 间接引用 | 数据最终来自 SMTMODS，但经过中间表（如 `L_CUST_C_TMP`） | 建议优化为 SMTMODS 直取 |
-| ❓ 存疑 | 数据源不确定是否从 SMTMODS 派生 | 需人工核查 |
-| ❌ 违规 | 完全不引用 SMTMODS 或从非 SMTMODS 表直取 | 必须整改 |
-
-## 文档内容质量审计（补充流程）
-
-除代码层数据源审计外，还需对实体文件进行内容质量审计：
-
-### 检查项
-
-| 维度 | 方法 |
-|------|------|
-| Part1 内容完整性 | 检查 `请查看原文文件` 占位符、`共0个字段` |
-| Part2 内容完整性 | 检查 `请查看源码`、`暂无对应`、`当前实体暂无` 等占位符 |
-| 监管集市表引用 | 检查 Part2 中 `SMTMODS.` 引用是否存在 |
-| 源码文件引用 | 检查 Part2 中 `.prc`/`.sql` 文件引用是否存在 |
-
-### 审计命令
-
-```bash
-# Part2 占位符检查
-for f in 实体/*.md; do
-  if awk '/^# 第二部分/,0' "$f" | grep -qE '请查看源码|暂无对应|当前实体暂无'; then
-    echo "P2占位符: $(basename $f)"
-  fi
-done
-
-# Part1 占位符检查  
-for f in 实体/*.md; do
-  if awk '/^# 第一部分/,/^# 第二部分/' "$f" | grep -q '请查看原文文件'; then
-    echo "P1占位符: $(basename $f)"
-  fi
-done
-
-# 集市区表引用检查
-for f in 实体/*.md; do
-  if ! awk '/^# 第二部分/,0' "$f" | grep -q 'SMTMODS\.'; then
-    echo "缺集市表引用: $(basename $f)"
-  fi
-done
-```
+原则上所有数据应从**监管集市（`SMTMODS` schema）** 取数。
 
 ### 最新审计结果
 
-详见审计报告第六章 `实体文件内容质量审计`。
-
----
-
+最新完整审计报告见：[参考资料/数据源审计/数据源审计报告.md](./参考资料/数据源审计/数据源审计报告.md)
 
 审计结论摘要：
 - **合规表**：SMTMODS 下 49 张表 ✅
@@ -200,7 +121,13 @@ done
 - **间接引用表**：7 张表不在 SMTMODS schema 下但数据来自 SMTMODS
 - **配置/映射表**：5 张（可接受）
 
----
+## 文档内容质量审计
+
+审计方法和最新结果见 **[devops/project-audit](../skill/devops/project-audit)** 技能。
+
+### 最新审计结论
+
+详见审计报告第六章 `实体文件内容质量审计`。
 
 ## 不在原文中的源码报表
 
