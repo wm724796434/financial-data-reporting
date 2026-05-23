@@ -105,7 +105,7 @@
 
 ## 数据源审计
 
-审计原则、方法、命令和最新结果见 **[devops/project-audit](../skill/devops/project-audit)** 技能。
+审计原则、方法、命令和最新结果见 **[.hermes/skills/project-audit/SKILL.md](.hermes/skills/project-audit/SKILL.md)** 技能。
 
 ### 审计原则
 
@@ -123,7 +123,7 @@
 
 ## 文档内容质量审计
 
-审计方法和最新结果见 **[devops/project-audit](../skill/devops/project-audit)** 技能。
+审计方法和最新结果见 **[.hermes/skills/project-audit/SKILL.md](.hermes/skills/project-audit/SKILL.md)** 技能。
 
 ### 最新审计结论
 
