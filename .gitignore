@@ -1,0 +1,25 @@
+# 系统文件
+Thumbs.db
+.DS_Store
+Desktop.ini
+*~
+
+# IDE/编辑器配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 临时文件
+*.tmp
+*.log
+*.bak
+
+# Python 缓存
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# 操作系统缓存文件
+lost+found/
