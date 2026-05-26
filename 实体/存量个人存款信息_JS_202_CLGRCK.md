@@ -40,7 +40,8 @@
 
 ---
 
-# 第二部分# 第二部分：代码取数业务范围（实现层）
+
+# 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
 
@@ -63,11 +64,46 @@
 
 ## 4. 业务筛选条件
 
-详细取数逻辑见源码解析文件。
+**程序用途**：生成接口表 SP_JS_202_CLGRCK 存量个人存款信息
+
+**SMTMODS 数据源表**：
+- `SMTMODS.L_ACCT_DEPOSIT`
+- `SMTMODS.L_PUBL_RATE`
+- `SMTMODS.L_CUST_C`
+- `SMTMODS.L_FINA_GL`
+
+**时间筛选**：
+```sql
+WHERE T.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+```
+
+**业务筛选条件**：
+```sql
+WHERE TABLE_NAME = 'PBOCD_JS_202_CLGRCK_TMP'
+(CASE WHEN B.LEGAL_CARD_TYPE IS NULL AND LENGTH(B.LEGAL_CARD_NO)=18
+WHEN B.LEGAL_CARD_TYPE IS NULL AND LENGTH(B.LEGAL_CARD_NO)=18 AND SUBSTR(B.LEGAL_CARD_NO,7,8) BETWEEN '19000101' AND '21001231' THEN SUBSTR(B.LEGAL_CARD_NO,1,6)--法人身份证号前6位
+AND B.DEPOSIT_CUSTTYPE IN ('13', '14') --个体工商户
+/*  AND A.ACCT_TYPE NOT LIKE '07%' --保证金存款不区分个体工商户 参照大集中
+AND F.CODE_CLMN_NAME = 'ID_TYPE'
+--WHEN (A.ACCT_TYPE like '07%' OR A.GL_ITEM_CODE IN('20110114','20110115')) AND NVL(TO_CHAR(A.MATUR_DATE, 'YYYYMMDD'),'99991231') < IS_DATE THEN
+WHEN (A.ACCT_TYPE like '07%' OR A.GL_ITEM_CODE IN('20110114','20110115')) AND NVL(TO_CHAR(A.MATUR_DATE, 'YYYYMMDD'),'99991231') <= IS_DATE THEN
+```
+
+
 
 ## 5. 特殊处理规则
 
-无特殊处理。
+| 字段 | 规则 | 说明 |
+|------|------|------|
+| `...` | `(CASE WHEN B.LEGAL_CARD_TYPE IS NULL AND LENGTH(B.LEGAL_CARD...` | 字段映射规则 |
+| `...` | `CASE WHEN A.GL_ITEM_CODE IN ('20110201', '22410101') THEN 'D...` | 个人活期 |
+| `...` | `CASE WHEN (TO_CHAR(A.ST_INT_DT, 'YYYY-MM-DD')='1900-01-01'` | 字段映射规则 |
+| `...` | `(CASE WHEN A.INT_RATE = 0.8 THEN '1999-01-01'` | 字段映射规则 |
+| `...` | `CASE WHEN LENGTH(TRIM(OB.REGION_CD)) = 6 AND OB.REGION_CD NO...` | 金融机构地区代码 |
+| `...` | `/*CASE WHEN LENGTH(TRIM(C.REGION_CD)) = 6 THEN C.REGION_CD` | 字段映射规则 |
+| `...` | `CASE WHEN A.GL_ITEM_CODE IN ('20110101','22410102') THEN 'D0...` | 个人活期存款 |
+| `...` | `CASE WHEN (TO_CHAR(A.ST_INT_DT, 'YYYY-MM-DD')='1900-01-01'` | 字段映射规则 |
+| `...` | `(CASE WHEN A.INT_RATE = 0.8 THEN '1999-01-01' ELSE '1999-01-...` | 字段映射规则 |
 
 ## 6. 历史变更记录
 

@@ -40,7 +40,8 @@
 
 ---
 
-# 第二部分# 第二部分：代码取数业务范围（实现层）
+
+# 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
 
@@ -65,11 +66,47 @@
 
 ## 4. 业务筛选条件
 
-详细取数逻辑见源码解析文件。
+**程序用途**：生成接口表 JS_201_DWDKFS 单位贷款发生额信息
+
+**SMTMODS 数据源表**：
+- `SMTMODS.L_ACCT_LOAN`
+- `SMTMODS.L_CUST_ALL`
+- `SMTMODS.L_AGRE_LOAN_CONTRACT`
+- `SMTMODS.L_PUBL_RATE`
+- `SMTMODS.L_TRAN_LOAN_PAYM`
+- `SMTMODS.L_ACCT_WRITE_OFF`
+
+**时间筛选**：
+```sql
+WHERE T.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+```
+
+**业务筛选条件**：
+```sql
+WHERE TABLE_NAME = 'JS_201_DWDKFS'
+/*CASE WHEN C.ID_TYPE IN ('236','239','2X','24') AND LENGTH(C.ID_NO) = 18 AND C.ID_NO NOT LIKE  '00000%' AND C.ID_NO NOT LIKE '%000000' THEN 'A01'
+CASE WHEN C.ID_TYPE IN ('236','239','2X','24') AND LENGTH(C.ID_NO) = 18 AND C.ID_NO NOT LIKE  '00000%' AND C.ID_NO NOT LIKE '%000000' THEN C.ID_NO
+AND D1.CODE_CLMN_NAME = 'ID_TYPE' --证件类型
+AND (B.CUST_TYPE = '11' OR SUBSTR(C.FINA_CODE, 1, 1) IN ('A', 'B'))
+/*  CASE WHEN C.ID_TYPE IN ('236','239','2X','24') AND LENGTH(C.ID_NO) = 18 AND C.ID_NO NOT LIKE  '00000%' AND C.ID_NO NOT LIKE '%000000' THEN 'A01'
+CASE WHEN C.ID_TYPE IN ('236','239','2X','24') AND LENGTH(C.ID_NO) = 18 AND C.ID_NO NOT LIKE  '00000%' AND C.ID_NO NOT LIKE '%000000' THEN C.ID_NO
+AND D1.CODE_CLMN_NAME = 'ID_TYPE' --证件类型
+```
+
+
 
 ## 5. 特殊处理规则
 
-无特殊处理。
+| 字段 | 规则 | 说明 |
+|------|------|------|
+| `...` | `/*CASE WHEN C.ID_TYPE IN ('236','239','2X','24') AND LENGTH(...` | 字段映射规则 |
+| `...` | `CASE WHEN C.ID_TYPE IN ('236','239','2X','24') AND LENGTH(C....` | 字段映射规则 |
+| `...` | `CASE WHEN D1.PBOCD_CODE = 'A02' THEN REPLACE(C.ID_NO,'-') EL...` | 借款人证件代码6 |
+| `...` | `CASE WHEN C.CUST_TYP <> '5' THEN C.DEPT_TYPE ELSE 'A04' END ...` | 借款人国民经济部门7 |
+| `...` | `CASE WHEN A.ACCT_TYP = '0901' THEN 'F052'` | 字段映射规则 |
+| `...` | `CASE WHEN A.LOAN_KIND_CD = '91'   THEN` | 资产重组 |
+| `...` | `/*  CASE WHEN C.ID_TYPE IN ('236','239','2X','24') AND LENGT...` | 字段映射规则 |
+| `...` | `CASE WHEN C.ID_TYPE IN ('236','239','2X','24') AND LENGTH(C....` | 字段映射规则 |
 
 ## 6. 历史变更记录
 

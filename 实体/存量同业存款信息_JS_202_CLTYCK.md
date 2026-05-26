@@ -40,7 +40,8 @@
 
 ---
 
-# 第二部分# 第二部分：代码取数业务范围（实现层）
+
+# 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
 
@@ -65,11 +66,38 @@
 
 ## 4. 业务筛选条件
 
-详细取数逻辑见源码解析文件。
+**程序用途**：生成接口表 JS_202_CLTYCK 存量同业存款信息表
+
+**SMTMODS 数据源表**：
+- `SMTMODS.L_ACCT_FUND_MMFUND`
+- `SMTMODS.L_CUST_ALL`
+- `SMTMODS.L_PUBL_RATE`
+- `SMTMODS.L_CUST_BILL_TY`
+- `SMTMODS.L_ACCT_FUND_CDS_BAL`
+
+**时间筛选**：
+```sql
+WHERE T.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+```
+
+**业务筛选条件**：
+```sql
+AND T.PRINCIPAL_BALANCE > 0
+AND ROUND(T.PRINCIPAL_BALANCE * T3.CCY_RATE) > 0
+```
+
+
 
 ## 5. 特殊处理规则
 
-无特殊处理。
+| 字段 | 规则 | 说明 |
+|------|------|------|
+| `...` | `CASE WHEN SUBSTR(T.GL_ITEM_CODE,1,6) IN ('201201','201202','...` | 字段映射规则 |
+| `...` | `CASE WHEN T.ACCT_TYP LIKE '101%' THEN 'C010302' ELSE T.ACCT_...` | 存款账户类型 |
+| `...` | `CASE WHEN T.CONT_PARTY_CODE  IS  NOT  NULL THEN  'A01'  END ...` | 交易对手类别 |
+| `...` | `CASE WHEN T.CONT_PARTY_CODE  IS  NOT  NULL THEN  'A01'  END` | 交易对手类别 |
+| `...` | `/*,CASE WHEN  T.CONT_PARTY_NAME LIKE '%证券%'  THEN  'DR03'` | 字段映射规则 |
+| `...` | `CASE WHEN  T.CONT_PARTY_NAME LIKE '%证券%'  THEN  ''` | 字段映射规则 |
 
 ## 6. 历史变更记录
 

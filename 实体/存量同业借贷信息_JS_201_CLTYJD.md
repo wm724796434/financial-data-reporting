@@ -40,7 +40,8 @@
 
 ---
 
-# 第二部分# 第二部分：代码取数业务范围（实现层）
+
+# 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
 
@@ -66,11 +67,48 @@
 
 ## 4. 业务筛选条件
 
-详细取数逻辑见源码解析文件。
+**程序用途**：生成接口表 JS_201_CLTYJD 存量同业借贷信息
+
+**SMTMODS 数据源表**：
+- `SMTMODS.L_ACCT_FUND_MMFUND`
+- `SMTMODS.L_CUST_ALL`
+- `SMTMODS.L_CUST_C`
+- `SMTMODS.L_PUBL_RATE`
+- `SMTMODS.L_ACCT_FUND_REPURCHASE`
+- `SMTMODS.L_AGRE_REPURCHASE_GUARANTY_INFO`
+- `SMTMODS.L_CUST_BILL_TY`
+
+**时间筛选**：
+```sql
+WHERE T.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+```
+
+**业务筛选条件**：
+```sql
+WHERE TABLE_NAME = 'PBOCD_JS_201_CLTYJD'
+WHERE A.RN = 1) A
+AND T.ASS_TYPE = '1'  --债券
+WHERE A.RN = 1) A
+) A WHERE A.RN=1) B
+ON A.LEGAL_TYSHXYDM=B.TYSHXYDM) WHERE RN = 1)FR
+```
+
+
 
 ## 5. 特殊处理规则
 
-无特殊处理。
+| 字段 | 规则 | 说明 |
+|------|------|------|
+| `...` | `CASE WHEN BB.TYSHXYDM IS NOT NULL THEN BB.TYSHXYDM` | 字段映射规则 |
+| `...` | `CASE WHEN T.ORG_NUM ='009801' THEN T.REF_NUM ||TO_CHAR(T.STA...` | 合同编码 ADD BY  ZY  20240618 增加009801外币 |
+| `...` | `CASE WHEN SUBSTR(T.ACCT_TYP,1,3) IN ('202','205') THEN 'AL02...` | 资产负债类型 |
+| `...` | `CASE WHEN T.ORG_NUM  ='009804' THEN 'TR01' ELSE  NVL(T.PRICI...` | 定价基准类型 |
+| `...` | `CASE WHEN  T.ACC_INT_TYPE ='1'  THEN 'B01'` | 字段映射规则 |
+| `...` | `CASE WHEN BB.TYSHXYDM IS NOT NULL THEN 'A01'` | 字段映射规则 |
+| `...` | `CASE WHEN T.ORG_NUM='009801' THEN  NVL(T.CUST_ID,AA.CUST_NAM...` | 上报客户名称 |
+| `...` | `CASE WHEN T.ORG_NUM='009801' THEN  NVL(T.CUST_ID,AA.CUST_NAM...` | 原客户名称 |
+| `...` | `CASE WHEN BB.TYSHXYDM IS NOT NULL THEN BB.TYSHXYDM` | 字段映射规则 |
+| `...` | `CASE WHEN SUBSTR(T.Busi_Type,1,3) IN ('101') THEN 'AL01' ELS...` | 资产负债类型 |
 
 ## 6. 历史变更记录
 

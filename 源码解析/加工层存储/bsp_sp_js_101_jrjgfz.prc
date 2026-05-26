@@ -44,16 +44,16 @@ BEGIN
 
 INSERT INTO PBOCD_JS_101_JRJGFZ
   SELECT /*+PARALLEL(4)*/
-         VS_TEXT, --数据日期
-         A.ORG_NAM, --金融机构名称
+         VS_TEXT, -- → DATA_DATE 数据日期（格式化后的跑批日期，yyyy-mm-dd格式）
+         A.ORG_NAM, -- → ORG_NAM 金融机构名称（L_PUBL_ORG_BRA.ORG_NAM）
          --NVL(SQ1.ORG_CODE, A.ID_NO), --金融机构代码--不优先取上期，有问题找L层更正
-         NVL(A.ID_NO, B.ID_NO), --金融机构代码
+         NVL(A.ID_NO, B.ID_NO), -- → ID_NO 金融机构代码（优先A.ID_NO，取不到取上级B.ID_NO）
          
          --[2025-12-30] [周立鹏] [JLBA202509240002_关于金融基础数据系统取数逻辑改造及治理常态化建设的需求_一阶段][李楠] 取上级，此处直接取了分行
          --NVL(A.ACCOUNTBANK, SQ1.ORG_ID), --金融机构编码
-         NVL(A.ACCOUNTBANK, B.ACCOUNTBANK), --金融机构编码
+         NVL(A.ACCOUNTBANK, B.ACCOUNTBANK), -- → ACCOUNTBANK 金融机构编码（优先A.ACCOUNTBANK，取不到取上级B.ACCOUNTBANK）
          
-         A.ORG_NUM, --内部机构号
+         A.ORG_NUM, -- → ORG_NUM 内部机构号（L_PUBL_ORG_BRA.ORG_NUM）
          CASE
            WHEN A.ORG_TYP = '0' THEN
             '01' --总行
@@ -66,21 +66,21 @@ INSERT INTO PBOCD_JS_101_JRJGFZ
             '03' --支行
            ELSE
             '99' --其他
-         END, --机构级别
-         B.ORG_NAM, --直属上级管理机构名称
+         END, -- → ORG_LEVEL 机构级别（ORG_TYP映射：0→01总行,2→02分行,1/3/4→03支行,else→99其他）
+         B.ORG_NAM, -- → UPPER_ORG_NAM 直属上级管理机构名称（L_PUBL_ORG_BRA.ORG_NAM，上级机构）
          
          --[2025-12-30] [周立鹏] [JLBA202509240002_关于金融基础数据系统取数逻辑改造及治理常态化建设的需求_一阶段][李楠] 取上级，此处不用取上级了，分行应该非空
          --NVL(B.ACCOUNTBANK, SQ2.UPPER_MANAGE_ORG_ID), --直属上级管理机构金融机构编码
-         B.ACCOUNTBANK, --直属上级管理机构金融机构编码
+         B.ACCOUNTBANK, -- → UPPER_ORG_ID 直属上级管理机构金融机构编码（L_PUBL_ORG_BRA.ACCOUNTBANK，上级机构）
          
-         B.ORG_NUM, --直属上级管理机构内部机构号
-         A.ORG_ADD, --注册地址
+         B.ORG_NUM, -- → UPPER_ORG_NUM 直属上级管理机构内部机构号（L_PUBL_ORG_BRA.ORG_NUM，上级机构）
+         A.ORG_ADD, -- → ORG_ADD 注册地址（L_PUBL_ORG_BRA.ORG_ADD）
          --NVL(SQ1.REG_REGION_CODE, A.REGION_CD), --地区代码--不优先取上期，有问题找L层更正
-         A.REGION_CD, --地区代码
+         A.REGION_CD, -- → REGION_CD 地区代码（L_PUBL_ORG_BRA.REGION_CD）
          
          --[2026-01-27] [周立鹏] [JLBA202509240002_关于金融基础数据系统取数逻辑改造及治理常态化建设的需求_二阶段][李楠] 剔除取上期/配置表
          --NVL(TO_CHAR(A.BEGAN_TIME, 'yyyy-mm-dd'), SQ1.BEGAN_TIME), --成立时间
-         TO_CHAR(A.BEGAN_TIME, 'yyyy-mm-dd'), --成立时间
+         TO_CHAR(A.BEGAN_TIME, 'yyyy-mm-dd'), -- → BEGAN_TIME 成立时间（L_PUBL_ORG_BRA.BEGAN_TIME，格式化为yyyy-mm-dd）
          
          /*CASE
            WHEN A.BUSI_STATE = '1' THEN
@@ -100,23 +100,23 @@ INSERT INTO PBOCD_JS_101_JRJGFZ
            ELSE
             '99' --其他
          END, --营业状态 */
-         NVL(A.BUSI_STATE,'99'), --营业状态 20231214JLF
+         NVL(A.BUSI_STATE,'99'), -- → BUSI_STATE 营业状态（优先A.BUSI_STATE，为空取'99'其他） 20231214JLF
          
          --[2025-09-18] [周立鹏] [JLBA202412270002_关于分析排查及改造金融基础数据取数逻辑的需求_四阶段][李楠] 剔除取上期/配置表
          /*NVL(SQ1.FIN_LICENSE_NUM, A.FIN_LIN_NUM), --许可证号
          NVL(SQ1.ORG_PAY_NUM, A.BANK_CD), --支付行号*/
-         A.FIN_LIN_NUM, --许可证号
+         A.FIN_LIN_NUM, -- → FIN_LICENSE_NUM 许可证号（L_PUBL_ORG_BRA.FIN_LIN_NUM）
          
          --[2026-01-27] [周立鹏] [JLBA202509240002_关于金融基础数据系统取数逻辑改造及治理常态化建设的需求_二阶段][李楠] 取不到取上级
          --A.BANK_CD, --支付行号
-         NVL(A.BANK_CD,B.BANK_CD), --支付行号
+         NVL(A.BANK_CD,B.BANK_CD), -- → BANK_CD 支付行号（优先A.BANK_CD，取不到取上级B.BANK_CD）
          
-         SYS_GUID() AS REPORT_ID, --REPORT_ID
-         IS_DATE AS CJRQ, --采集日期
-         A.ORG_NUM AS NBJGH, --内部机构号
-         '99' AS BIZ_LINE_ID, --业务条线
-         '' AS VERIFY_STATUS, --校验状态
-         '' AS BSCJRQ, --报送采集日期
+         SYS_GUID() AS REPORT_ID, -- → REPORT_ID 报告ID（SYS_GUID()生成全局唯一ID）
+         IS_DATE AS CJRQ, -- → CJRQ 采集日期（跑批日期参数IS_DATE）
+         A.ORG_NUM AS NBJGH, -- → NBJGH 内部机构号（L_PUBL_ORG_BRA.ORG_NUM）
+         '99' AS BIZ_LINE_ID, -- → BIZ_LINE_ID 业务条线，固定值99
+         '' AS VERIFY_STATUS, -- → VERIFY_STATUS 校验状态，固定空值
+         '' AS BSCJRQ, -- → BSCJRQ 报送采集日期，固定空值
 
          CASE
            WHEN A.ORG_NUM LIKE '51%' THEN
@@ -141,7 +141,7 @@ INSERT INTO PBOCD_JS_101_JRJGFZ
             '600000'----20230620多法人新增
            ELSE
             '990000'
-         END AS FRNBJGH --法人内部机构号
+         END AS FRNBJGH -- → FRNBJGH 法人内部机构号（ORG_NUM前两位映射省代码：51→510000,52→520000…,else→990000）
     FROM SMTMODS.L_PUBL_ORG_BRA A
     LEFT JOIN SMTMODS.L_PUBL_ORG_BRA B
       ON SUBSTR(A.UP_ORG_NUM, 1, 2) || '0000' = B.ORG_NUM

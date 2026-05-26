@@ -40,6 +40,7 @@
 
 ---
 
+
 # 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
@@ -65,11 +66,38 @@
 
 ## 4. 业务筛选条件
 
-详细取数逻辑见源码解析文件。
+**程序用途**：生成接口表 JS_205_CLZTX 存量再贴现信息表
+
+**SMTMODS 数据源表**：
+- `SMTMODS.L_ACCT_FUND_MMFUND`
+- `SMTMODS.L_AGRE_BILL_INFO`
+- `SMTMODS.L_ACCT_LOAN`
+- `SMTMODS.L_ACCT_FUND_INVEST`
+- `SMTMODS.L_PUBL_RATE`
+- `SMTMODS.L_CUST_BILL_TY`
+
+**时间筛选**：
+```sql
+WHERE T.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+```
+
+**业务筛选条件**：
+```sql
+WHERE TABLE_NAME = 'JS_205_CLZTX'
+AND CD1.CODE_CLMN_NAME = 'ID_TYPE'*/
+) A WHERE A.RN=1) B
+ON A.LEGAL_TYSHXYDM=B.TYSHXYDM) WHERE RN = 1)FR
+```
+
+
 
 ## 5. 特殊处理规则
 
-无特殊处理。
+| 字段 | 规则 | 说明 |
+|------|------|------|
+| `...` | `CASE WHEN TRIM(B.BILL_TYPE) = '1' THEN '01'` | 银行承兑汇票 |
+| `...` | `CASE WHEN B.IS_P_BILL = 'Y' THEN '01'` | 字段映射规则 |
+| `...` | `CASE WHEN T.ORG_NUM LIKE '51%' THEN '99'` | 字段映射规则 |
 
 ## 6. 历史变更记录
 

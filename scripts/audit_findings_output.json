@@ -1,0 +1,377 @@
+[
+  {
+    "description": "实体已标注源码未收录（两缺）: 个人存款发生额信息_JS_202_GRCKFS.md",
+    "files": "实体/个人存款发生额信息_JS_202_GRCKFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "两缺（缺SMTMODS表引用+缺源码引用）: 五篇大文章-4.1科技贷款（含票据直贴）.md",
+    "files": "实体/五篇大文章-4.1科技贷款（含票据直贴）.md",
+    "priority": "P1"
+  },
+  {
+    "description": "两缺（缺SMTMODS表引用+缺源码引用）: 五篇大文章-4.2科技贷款（不含票据直贴）.md",
+    "files": "实体/五篇大文章-4.2科技贷款（不含票据直贴）.md",
+    "priority": "P1"
+  },
+  {
+    "description": "实体已标注源码未收录（两缺）: 债券发行发生额信息_JS_203_ZQFXFS.md",
+    "files": "实体/债券发行发生额信息_JS_203_ZQFXFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "缺集市表（有源码但不引用SMTMODS）: 再贴现发生额信息_JS_205_ZTXFS.md",
+    "files": "实体/再贴现发生额信息_JS_205_ZTXFS.md",
+    "priority": "P1"
+  },
+  {
+    "description": "缺集市表（有源码但不引用SMTMODS）: 同业客户基础信息_JS_102_TYKHXX.md",
+    "files": "实体/同业客户基础信息_JS_102_TYKHXX.md",
+    "priority": "P1"
+  },
+  {
+    "description": "实体已标注源码未收录（两缺）: 存量专项贷款一批报文信息_JS_201_CLZXYP.md",
+    "files": "实体/存量专项贷款一批报文信息_JS_201_CLZXYP.md",
+    "priority": "P2"
+  },
+  {
+    "description": "实体已标注源码未收录（两缺）: 存量专项贷款二批报文信息_JS_201_CLZXEP.md",
+    "files": "实体/存量专项贷款二批报文信息_JS_201_CLZXEP.md",
+    "priority": "P2"
+  },
+  {
+    "description": "实体已标注源码未收录（两缺）: 存量收购处置信息_JS_201_CLSGCZ.md",
+    "files": "实体/存量收购处置信息_JS_201_CLSGCZ.md",
+    "priority": "P2"
+  },
+  {
+    "description": "实体已标注源码未收录（两缺）: 存量收购重组信息_JS_201_CLCZXX.md",
+    "files": "实体/存量收购重组信息_JS_201_CLCZXX.md",
+    "priority": "P2"
+  },
+  {
+    "description": "实体已标注源码未收录（两缺）: 存量特定目的载体投资信息_JS_204_SPVTZX.md",
+    "files": "实体/存量特定目的载体投资信息_JS_204_SPVTZX.md",
+    "priority": "P2"
+  },
+  {
+    "description": "实体已标注源码未收录（两缺）: 存量股权投资信息_JS_204_CLGQTZ.md",
+    "files": "实体/存量股权投资信息_JS_204_CLGQTZ.md",
+    "priority": "P2"
+  },
+  {
+    "description": "实体已标注源码未收录（两缺）: 收购重组发生额信息_JS_201_CZXXFS.md",
+    "files": "实体/收购重组发生额信息_JS_201_CZXXFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "实体已标注源码未收录（两缺）: 特定目的载体投资发生额信息_JS_204_SPVFSX.md",
+    "files": "实体/特定目的载体投资发生额信息_JS_204_SPVFSX.md",
+    "priority": "P2"
+  },
+  {
+    "description": "实体已标注源码未收录（两缺）: 股权投资发生额信息_JS_204_GQTZFS.md",
+    "files": "实体/股权投资发生额信息_JS_204_GQTZFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "实体已标注源码未收录（两缺）: 金融机构（法人）利润及资本统计表_JS_101_JGFRLR.md",
+    "files": "实体/金融机构（法人）利润及资本统计表_JS_101_JGFRLR.md",
+    "priority": "P2"
+  },
+  {
+    "description": "实体已标注源码未收录（两缺）: 金融机构（法人）基本情况统计表_JS_101_JGFRJB.md",
+    "files": "实体/金融机构（法人）基本情况统计表_JS_101_JGFRJB.md",
+    "priority": "P2"
+  },
+  {
+    "description": "实体已标注源码未收录（两缺）: 金融机构（法人）资产负债及风险统计表_JS_101_JGFRZF.md",
+    "files": "实体/金融机构（法人）资产负债及风险统计表_JS_101_JGFRZF.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 个人存款发生额信息_JS_202_GRCKFS.md",
+    "files": "实体/个人存款发生额信息_JS_202_GRCKFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 个人客户基础信息_JS_102_GRKHXX.md",
+    "files": "实体/个人客户基础信息_JS_102_GRKHXX.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 个人贷款发生额信息_JS_201_GRDKFS.md",
+    "files": "实体/个人贷款发生额信息_JS_201_GRDKFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 债券发行发生额信息_JS_203_ZQFXFS.md",
+    "files": "实体/债券发行发生额信息_JS_203_ZQFXFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 债券投资发生额信息_JS_203_ZQTZFS.md",
+    "files": "实体/债券投资发生额信息_JS_203_ZQTZFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 再贴现发生额信息_JS_205_ZTXFS.md",
+    "files": "实体/再贴现发生额信息_JS_205_ZTXFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 单位贷款发生额信息_JS_201_DWDKFS.md",
+    "files": "实体/单位贷款发生额信息_JS_201_DWDKFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 同业借贷发生额信息_JS_201_TYJDFS.md",
+    "files": "实体/同业借贷发生额信息_JS_201_TYJDFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 同业存款发生额信息_JS_202_TYCKFS.md",
+    "files": "实体/同业存款发生额信息_JS_202_TYCKFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 委托贷款发生额信息_JS_201_WTDKFS.md",
+    "files": "实体/委托贷款发生额信息_JS_201_WTDKFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 存量专项贷款一批报文信息_JS_201_CLZXYP.md",
+    "files": "实体/存量专项贷款一批报文信息_JS_201_CLZXYP.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 存量专项贷款二批报文信息_JS_201_CLZXEP.md",
+    "files": "实体/存量专项贷款二批报文信息_JS_201_CLZXEP.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 存量个人存款信息_JS_202_CLGRCK.md",
+    "files": "实体/存量个人存款信息_JS_202_CLGRCK.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 存量个人贷款信息_JS_201_CLGRDK.md",
+    "files": "实体/存量个人贷款信息_JS_201_CLGRDK.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 存量同业借贷信息_JS_201_CLTYJD.md",
+    "files": "实体/存量同业借贷信息_JS_201_CLTYJD.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 存量同业存款信息_JS_202_CLTYCK.md",
+    "files": "实体/存量同业存款信息_JS_202_CLTYCK.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 存量收购处置信息_JS_201_CLSGCZ.md",
+    "files": "实体/存量收购处置信息_JS_201_CLSGCZ.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 存量收购重组信息_JS_201_CLCZXX.md",
+    "files": "实体/存量收购重组信息_JS_201_CLCZXX.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 存量特定目的载体投资信息_JS_204_SPVTZX.md",
+    "files": "实体/存量特定目的载体投资信息_JS_204_SPVTZX.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 存量票据融资信息_JS_205_CLPJRZ.md",
+    "files": "实体/存量票据融资信息_JS_205_CLPJRZ.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 存量股权投资信息_JS_204_CLGQTZ.md",
+    "files": "实体/存量股权投资信息_JS_204_CLGQTZ.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 存量银行承兑汇票信息_JS_205_CLYHCD.md",
+    "files": "实体/存量银行承兑汇票信息_JS_205_CLYHCD.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 收购重组发生额信息_JS_201_CZXXFS.md",
+    "files": "实体/收购重组发生额信息_JS_201_CZXXFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 票据融资发生额信息_JS_205_PJRZFS.md",
+    "files": "实体/票据融资发生额信息_JS_205_PJRZFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 股权投资发生额信息_JS_204_GQTZFS.md",
+    "files": "实体/股权投资发生额信息_JS_204_GQTZFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 金融机构（分支机构）基础信息_JS_101_JRJGFZ.md",
+    "files": "实体/金融机构（分支机构）基础信息_JS_101_JRJGFZ.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 银行承兑汇票发生额信息_JS_205_YHCDFS.md",
+    "files": "实体/银行承兑汇票发生额信息_JS_205_YHCDFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）: 非同业单位存款发生额信息_JS_202_DWCKFS.md",
+    "files": "实体/非同业单位存款发生额信息_JS_202_DWCKFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 个人客户基础信息_JS_102_GRKHXX.md",
+    "files": "实体/个人客户基础信息_JS_102_GRKHXX.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 个人贷款发生额信息_JS_201_GRDKFS.md",
+    "files": "实体/个人贷款发生额信息_JS_201_GRDKFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 五篇大文章-3.10数字经济产业贷款发生额信息.md",
+    "files": "实体/五篇大文章-3.10数字经济产业贷款发生额信息.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 五篇大文章-3.2科技贷款发生额信息.md",
+    "files": "实体/五篇大文章-3.2科技贷款发生额信息.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 五篇大文章-3.6普惠贷款发生额信息.md",
+    "files": "实体/五篇大文章-3.6普惠贷款发生额信息.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 五篇大文章-3.8养老产业贷款发生额信息.md",
+    "files": "实体/五篇大文章-3.8养老产业贷款发生额信息.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 五篇大文章-4.1科技贷款（含票据直贴）.md",
+    "files": "实体/五篇大文章-4.1科技贷款（含票据直贴）.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 五篇大文章-4.2科技贷款（不含票据直贴）.md",
+    "files": "实体/五篇大文章-4.2科技贷款（不含票据直贴）.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 债券投资发生额信息_JS_203_ZQTZFS.md",
+    "files": "实体/债券投资发生额信息_JS_203_ZQTZFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 再贴现发生额信息_JS_205_ZTXFS.md",
+    "files": "实体/再贴现发生额信息_JS_205_ZTXFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 单位贷款发生额信息_JS_201_DWDKFS.md",
+    "files": "实体/单位贷款发生额信息_JS_201_DWDKFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 单位贷款置换旧债发生额信息_JS_201_ZHJZFS.md",
+    "files": "实体/单位贷款置换旧债发生额信息_JS_201_ZHJZFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 同业借贷发生额信息_JS_201_TYJDFS.md",
+    "files": "实体/同业借贷发生额信息_JS_201_TYJDFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 同业存款发生额信息_JS_202_TYCKFS.md",
+    "files": "实体/同业存款发生额信息_JS_202_TYCKFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 同业客户基础信息_JS_102_TYKHXX.md",
+    "files": "实体/同业客户基础信息_JS_102_TYKHXX.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 委托贷款发生额信息_JS_201_WTDKFS.md",
+    "files": "实体/委托贷款发生额信息_JS_201_WTDKFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 存贷款客户核对_JS_201_HDACLHLDK.md",
+    "files": "实体/存贷款客户核对_JS_201_HDACLHLDK.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 存量个人存款信息_JS_202_CLGRCK.md",
+    "files": "实体/存量个人存款信息_JS_202_CLGRCK.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 存量个人贷款信息_JS_201_CLGRDK.md",
+    "files": "实体/存量个人贷款信息_JS_201_CLGRDK.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 存量再贴现信息_JS_205_CLZTX.md",
+    "files": "实体/存量再贴现信息_JS_205_CLZTX.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 存量同业借贷信息_JS_201_CLTYJD.md",
+    "files": "实体/存量同业借贷信息_JS_201_CLTYJD.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 存量同业存款信息_JS_202_CLTYCK.md",
+    "files": "实体/存量同业存款信息_JS_202_CLTYCK.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 存量票据融资信息_JS_205_CLPJRZ.md",
+    "files": "实体/存量票据融资信息_JS_205_CLPJRZ.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 存量银行承兑汇票信息_JS_205_CLYHCD.md",
+    "files": "实体/存量银行承兑汇票信息_JS_205_CLYHCD.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 存量非同业单位存款信息_JS_202_FTYDWC.md",
+    "files": "实体/存量非同业单位存款信息_JS_202_FTYDWC.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 票据融资发生额信息_JS_205_PJRZFS.md",
+    "files": "实体/票据融资发生额信息_JS_205_PJRZFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 金融机构（分支机构）基础信息_JS_101_JRJGFZ.md",
+    "files": "实体/金融机构（分支机构）基础信息_JS_101_JRJGFZ.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 银行承兑汇票发生额信息_JS_205_YHCDFS.md",
+    "files": "实体/银行承兑汇票发生额信息_JS_205_YHCDFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "Part2 内容单薄（缺少实质性SQL规则）: 非同业单位存款发生额信息_JS_202_DWCKFS.md",
+    "files": "实体/非同业单位存款发生额信息_JS_202_DWCKFS.md",
+    "priority": "P2"
+  }
+]

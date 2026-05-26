@@ -116,7 +116,7 @@ SUBSTR(T.ITEM_CD, 1, 4) IN ('1303', '1305', '1306')
 
 ```sql
 INNER JOIN L_CUST_C_TMP G ON T.CUST_ID = G.CUST_ID
-  AND G.CUST_TYP <> '3'  -- 去除个体工商户
+  AND G.CUST_TYP <> '3'  -- 码表C0003：3=个体工商户（排除）
 ```
 
 | 客户类型 | 是否纳入 |
@@ -129,7 +129,7 @@ INNER JOIN L_CUST_C_TMP G ON T.CUST_ID = G.CUST_ID
 | 条件 | 说明 |
 |------|------|
 | `T.LOAN_ACCT_BAL > 0` | 余额大于0 |
-| `T.CANCEL_FLG = 'N'` | 剔除核销数据 |
+| `T.CANCEL_FLG = 'N'` | 剔除核销数据  -- 码表A0010：Y=是（已核销）、N=否（未核销，保留） |
 | `T.LOAN_STOCKEN_DATE IS NULL` | 资产未转让（20250311新增，需求JLBA202408200012） |
 
 ### 3.4 产品类型映射（代码级）

@@ -40,7 +40,8 @@
 
 ---
 
-# 第二部分# 第二部分：代码取数业务范围（实现层）
+
+# 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
 
@@ -66,11 +67,40 @@
 
 ## 4. 业务筛选条件
 
-详细取数逻辑见源码解析文件。
+**数据来源合并**：本表从以下三个渠道合并客户数据：
+1. **个人客户**（`SMTMODS.L_CUST_P`）— `T.DATA_DATE = IS_DATE`
+2. **企业客户**（`SMTMODS.L_CUST_C`）— `T.DATA_DATE = IS_DATE`
+3. **个体工商户及小微企业主**（`SMTMODS.L_CUST_P`）— `T.DATA_DATE = IS_DATE AND T.OPERATE_CUST_TYPE IN ('A', 'B')`
+
+**排除规则**：
+- 有核销记录的客户，同时有未核销贷款 → 排除（`NOT IN` 子查询+核销日期判断）
+- 机构号为 `'090907'` 的 → 重写为 `'090906'`
+
+**完整 WHERE 条件（合并后）**：
+```sql
+WHERE T.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+  -- 个人客户：无条件（全量）
+  -- 企业客户：无条件（全量）
+  -- 个体工商户：AND T.OPERATE_CUST_TYPE IN ('A', 'B')
+  -- 排除既有核销贷款又有未核销贷款的客户
+  AND T.CUST_ID NOT IN (
+    SELECT T1.CUST_ID FROM SMTMODS.L_ACCT_LOAN T1
+    WHERE T1.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+  )
+```
 
 ## 5. 特殊处理规则
 
-无特殊处理。
+| 类别 | 规则 | 说明 |
+|------|------|------|
+| **客户证件号** | `CASE WHEN T.CUST_TYP = '3' THEN NVL(T.LEGAL_CARD_NO,T.ID_NO) ELSE T.ID_NO END` | 个体户取法人证件号 |
+| **性别** | 身份证倒数第2位奇→男(01)/偶→女(02) | 仅限身份证类型为101/102/10且长度18/15位 |
+| **最高学历** | `CASE WHEN D5.PBOCD_CODE = '90' THEN NULL ELSE D5.PBOCD_CODE END` | 码值90赋空值 |
+| **地区代码** | `CASE WHEN LENGTH(TRIM(REGION_CD))=6 AND REGION_CD NOT LIKE '000%' AND REGION_CD <> '999999' THEN TRIM(REGION_CD) END` | 去掉待治理、000开头、999999 |
+| **个人年收入** | `CASE WHEN INCOME_YEAR='9999999' OR INCOME_YEAR<1000 OR INCOME_YEAR>10000000 THEN NULL ELSE INCOME_YEAR END` | 异常值赋空 |
+| **关联方标识** | `CASE WHEN GLF.ID_CARD IS NOT NULL THEN '1' ELSE '0' END` | 有关联方记录则标记 |
+| **个体户执照代码** | `CASE WHEN T1.KHFL IN ('3', 'A') THEN T1.TYSHXYDMS END` | 仅个体工商户类型 |
+| **社会信用代码** | `CASE WHEN T1.KHFL = 'B' THEN T1.TYSHXYDMS END` | 仅小微企业 |
 
 ## 6. 历史变更记录
 

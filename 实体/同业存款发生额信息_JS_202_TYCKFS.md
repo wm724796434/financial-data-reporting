@@ -40,7 +40,8 @@
 
 ---
 
-# 第二部分# 第二部分：代码取数业务范围（实现层）
+
+# 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
 
@@ -67,11 +68,50 @@
 
 ## 4. 业务筛选条件
 
-详细取数逻辑见源码解析文件。
+**程序用途**：
+
+**SMTMODS 数据源表**：
+- `SMTMODS.L_TRAN_TX`
+- `smtmods.l_acct_fund_mmfund`
+- `SMTMODS.L_CUST_ALL`
+- `SMTMODS.L_PUBL_RATE`
+- `SMTMODS.L_CUST_BILL_TY`
+- `SMTMODS.L_CUST_C`
+- `SMTMODS.L_TRAN_FUND_FX`
+- `SMTMODS.L_ACCT_FUND_CDS_BAL`
+
+**时间筛选**：
+```sql
+WHERE T.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+```
+
+**业务筛选条件**：
+```sql
+WHERE TABLE_NAME = 'PBOCD_JS_202_TYCKFS_TMP'
+WHEN (T1.FINA_CODE<>'I20000' OR T1.FINA_CODE IS NULL) /*AND B.ID_TYPE IN ('21','236')*/ THEN B.ID_NO
+WHEN (T1.FINA_CODE<>'I20000' OR T1.FINA_CODE IS NULL) /*AND B.ID_TYPE IN ('21','236')*/ THEN B.ID_NO
+WHERE TABLE_NAME = 'PBOCD_JS_202_TYCKFS'
+WHERE TO_CHAR(A.TRAN_DT,'YYYYMM') =SUBSTR( IS_DATE,1,6)
+WHERE TO_CHAR(T1.TRAN_DT, 'YYYYMM') = SUBSTR(IS_DATE, 1, 6)
+WHERE T.DATE_SOURCESD ='存单发行';
+```
+
+
 
 ## 5. 特殊处理规则
 
-无特殊处理。
+| 字段 | 规则 | 说明 |
+|------|------|------|
+| `...` | `CASE WHEN D.ACCT_TYP LIKE '201%' AND D.DEPOSIT_TERM_FLG LIKE...` | T012 |  -- 码表A0004（贷款账户类型）：01=个人贷款、0102=个人经营性贷款、0301=贴现、90=委托贷款
+| `...` | `CASE WHEN D.ACCT_TYP LIKE '101%' THEN` | 字段映射规则 |
+| `...` | `CASE WHEN A.CD_TYPE = '2' THEN '0' ELSE '1'  END` | 字段映射规则 |
+| `...` | `ELSE CASE WHEN A.CD_TYPE = '2' THEN '1' ELSE '0'  END` | 字段映射规则 |
+| `...` | `CASE WHEN D.ACCT_TYP LIKE '101%' THEN 'C010302' ELSE D.ACCT_...` | 存款账户类型 |
+| `...` | `CASE WHEN LENGTH(A.OPP_NAME) >=4 THEN A.OPP_NAME END AS OPPO...` | 存款转入转出方名称  发文：资金转入或转出的交易对手的全称 |
+| `...` | `/*CASE WHEN A.ORG_NUM LIKE '5100%' THEN '510000' ELSE '99000...` | 字段映射规则 |
+| `...` | `CASE WHEN D.ACCT_TYP LIKE '201%' AND D.DEPOSIT_TERM_FLG LIKE...` | T012 |  -- 码表A0004（贷款账户类型）：01=个人贷款、0102=个人经营性贷款、0301=贴现、90=委托贷款
+| `...` | `CASE WHEN D.ACCT_TYP LIKE '101%' THEN` | 字段映射规则 |
+| `...` | `CASE WHEN A.CD_TYPE = '2' THEN '0' ELSE '1'  END` | 字段映射规则 |
 
 ## 6. 历史变更记录
 

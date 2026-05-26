@@ -18,6 +18,7 @@
 
 ---
 
+
 # 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表实际怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
@@ -53,10 +54,10 @@
 ```sql
 INSERT INTO JS_201_CLZXDK_TMP01
   SELECT DISTINCT T.LOAN_NUM, T.CONTRACT_CODE
-    FROM PBOCD_JS_201_CLDWDK T WHERE T.DATA_DATE = ...
+    FROM PBOCD_JS_201_CLDWDK T WHERE T.DATA_DATE = ...  -- 数据日期，等于跑批日期  -- 码表参考：DATA_DATE为日期型字段，取跑批日期值
   UNION ALL
   SELECT DISTINCT T.LOAN_NUM, T.CONTRACT_CODE
-    FROM PBOCD_JS_201_CLGRDK T WHERE T.DATA_DATE = ...
+    FROM PBOCD_JS_201_CLGRDK T WHERE T.DATA_DATE = ...  -- 数据日期，等于跑批日期  -- 码表参考：DATA_DATE为日期型字段，取跑批日期值
 ```
 
 ### 4.2 个人客户过滤
@@ -80,7 +81,7 @@ WHERE A.GREEN_LOAN_TYPE IS NOT NULL  -- 绿色贷款类型不为空
 科目条件：
 ```sql
 WHERE T.ITEM_CD IN ('130101', '130104')  -- 票据融资科目
-  AND T.CANCEL_FLG = 'N'       -- 去除核销
+  AND T.CANCEL_FLG = 'N'       -- 去除核销  -- 码表A0010：Y=是（已核销）、N=否（未核销，保留）
   AND T.LOAN_ACCT_BAL > 0      -- 余额大于0
   AND T.LOAN_STOCKEN_DATE IS NULL  -- 资产未转让
 ```

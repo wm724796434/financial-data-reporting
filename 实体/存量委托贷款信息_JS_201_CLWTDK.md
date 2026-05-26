@@ -72,7 +72,7 @@ WHERE T.ITEM_CD LIKE '3020%'                              -- 委托贷款科目
 ### 3.2 状态过滤
 
 ```sql
-AND T.CANCEL_FLG = 'N'            -- 未核销
+AND T.CANCEL_FLG = 'N'            -- 码表A0010（是否标志）：N=否（未核销，保留）；Y=是（已核销，排除）
 AND T.LOAN_STOCKEN_DATE IS NULL    -- 资产未转让
 ```
 

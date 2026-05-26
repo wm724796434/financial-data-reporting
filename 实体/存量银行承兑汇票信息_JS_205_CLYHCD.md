@@ -40,7 +40,8 @@
 
 ---
 
-# 第二部分# 第二部分：代码取数业务范围（实现层）
+
+# 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
 
@@ -69,7 +70,36 @@
 
 ## 4. 业务筛选条件
 
-详细取数逻辑见源码解析文件。
+**程序用途**：生成接口表 JS_205_CLYHCD 存量银行承兑
+
+**SMTMODS 数据源表**：
+- `SMTMODS.L_AGRE_GUARANTY_INFO`
+- `SMTMODS.L_AGRE_GUARANTEE_RELATION`
+- `SMTMODS.L_AGRE_GUA_RELATION`
+- `SMTMODS.L_AGRE_GUARANTEE_CONTRACT`
+- `SMTMODS.L_ACCT_OBS_LOAN`
+- `SMTMODS.L_AGRE_LOAN_CONTRACT`
+- `SMTMODS.L_CUST_C`
+- `SMTMODS.L_AGRE_BILL_INFO`
+
+**时间筛选**：
+```sql
+WHERE T.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+```
+
+**业务筛选条件**：
+```sql
+AND T2.REL_STATUS = 'Y'  -- 担保关系状态：Y=存续，排除N=解除
+AND T4.REL_STATUS = 'Y'  -- 担保关系状态：Y=存续，排除N=解除
+AND T1.GUAR_CONTRACT_STATUS = 'Y'  -- 抵质押物状态：Y=有效、N=无效
+AND T.COLL_STATUS = 'Y';  -- 抵质押物状态：Y=有效、N=无效
+WHERE TABLE_NAME = 'JS_205_CLYHCD'
+AND CD1.CODE_CLMN_NAME = 'ID_TYPE'
+AND CD2.CODE_CLMN_NAME = 'BZR_ID_TYPE'
+AND CD3.CODE_CLMN_NAME = 'DEPT_TYPE' --国民经济部门*/
+```
+
+
 
 ## 5. 特殊处理规则
 

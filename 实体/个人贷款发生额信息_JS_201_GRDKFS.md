@@ -40,7 +40,8 @@
 
 ---
 
-# 第二部分# 第二部分：代码取数业务范围（实现层）
+
+# 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
 
@@ -66,11 +67,50 @@
 
 ## 4. 业务筛选条件
 
-详细取数逻辑见源码解析文件。
+**程序用途**：生成接口表 JS_201_GRDKFS 个人贷款发生额信息
+
+**SMTMODS 数据源表**：
+- `SMTMODS.L_ACCT_LOAN`
+- `SMTMODS.L_CUST_ALL`
+- `SMTMODS.L_CUST_IDENTIFY`
+- `SMTMODS.L_CUST_C`
+- `SMTMODS.L_PUBL_RATE`
+- `SMTMODS.L_TRAN_LOAN_PAYM`
+- `SMTMODS.L_ACCT_WRITE_OFF`
+
+**时间筛选**：
+```sql
+WHERE T.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+```
+
+**业务筛选条件**：
+```sql
+WHERE TABLE_NAME = 'JS_201_GRDKFS'
+AND B.ID_TYPE = D.ID_TYPE
+WHERE (TRUNC(A.DRAWDOWN_DT, 'MM') = TRUNC(D_DATADATE, 'MM') OR
+AND (B.CUST_TYPE = '00' OR E.CUST_TYP = '3')
+AND B.ID_TYPE = D.ID_TYPE
+WHERE (TRUNC(A.REPAY_DT, 'MM') = TRUNC(D_DATADATE, 'MM') OR
+AND (B.CUST_TYPE = '00' OR E.CUST_TYP = '3')
+WHERE T.EFF_FLAG = 'Y'
+```
+
+
 
 ## 5. 特殊处理规则
 
-无特殊处理。
+| 字段 | 规则 | 说明 |
+|------|------|------|
+| `...` | `CASE WHEN LA.RN = 1 THEN '1' WHEN LA.RN >= 2 THEN '0' END FI...` | 28  是否首次贷款 |
+| `...` | `CASE WHEN A.LOAN_KIND_CD = '91'   THEN` | 资产重组 |
+| `...` | `CASE WHEN A.ACCT_TYP = '010302' THEN '线上联合消费贷款'` | 字段映射规则 |
+| `...` | `/*CASE WHEN A.ORG_NUM LIKE '5100%' THEN '510000' ELSE '99000...` | 字段映射规则 |
+| `...` | `CASE WHEN F.ORG_NUM LIKE  '5100%' THEN` | 字段映射规则 |
+| `...` | `CASE WHEN LA.RN = 1 THEN '1' WHEN LA.RN >= 2 THEN '0' END FI...` | 28  是否首次贷款 |
+| `...` | `CASE WHEN A.PAY_TYPE  IN ('04', '12') THEN` | 字段映射规则 |
+| `...` | `CASE WHEN A.PAY_AMT < 0 THEN '1' ELSE '0' END AS TRANS_TYPE,` | 发放/收回标识 |
+| `...` | `CASE WHEN F.ACCT_TYP = '010302' THEN '线上联合消费贷款'` | 字段映射规则 |
+| `...` | `CASE WHEN T.INT_RATE_TYPE = 'RF01' THEN NULL ELSE NVL(T.BASE...` | 19  基准利率 |
 
 ## 6. 历史变更记录
 

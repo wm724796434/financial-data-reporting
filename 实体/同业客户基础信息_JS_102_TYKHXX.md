@@ -40,6 +40,7 @@
 
 ---
 
+
 # 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
@@ -50,7 +51,15 @@
 
 ## 2. 监管集市表来源
 
-（该程序未引用 SMTMODS 监管集市表，数据从其他接口表获取）
+| 表名 | 角色 | 数据来源说明 |
+|------|------|------------|
+| `JS_202_CLTYCK` | 客户号来源（存量同业存款） | 取有余额的存量同业存款客户 |
+| `PBOCD_JS_202_TYCKFS` | 客户号来源（同业存款发生额） | 补充有发生额但无存量的客户 |
+| `L_CUST_C_TMP` | 客户详情（客户信息中间表） | 根据客户号获取客户详细信息 |
+| `JS_102_TYKHXX_CODE` | 客户代码映射表 | 源客户号到目标客户号的映射关系 |
+| `JS_102_TYKHXX_TEMP1` | 中间临时表 | 合并存量+发生额的客户号集合 |
+
+> ⚠️ **数据源合规**：本程序数据源来自业务接口表(`JS_202_CLTYCK`, `PBOCD_JS_202_TYCKFS`)和客户信息中间表(`L_CUST_C_TMP`)，**未直接引用 SMTMODS 监管集市表**。`L_CUST_C_TMP` 数据最终可能来自 `SMTMODS.L_CUST_C`（待确认），建议评估改造方案。
 
 ## 3. 输出接口表
 
@@ -58,11 +67,33 @@
 
 ## 4. 业务筛选条件
 
-详细取数逻辑见源码解析文件。
+**程序用途**：生成接口表 JS_102_TYKHXX 同业客户基础信息
+
+**时间筛选**：
+```sql
+WHERE T.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+```
+
+**业务筛选条件**：
+```sql
+WHERE TABLE_NAME = 'JS_102_TYKHXX'
+AND PJ.PARAM_TYPE = 'NBPJ')
+WHERE T.RN=1 AND T.CUST_ID_NO IS NOT NULL;
+UPDATE JS_102_TYKHXX A SET A.ORG_NUM = (SELECT T.ORG_NUM_BK FROM ORG_NEW T WHERE T.EFF_FLAG = 'Y' AND A.ORG_NUM = T.ORG_NUM_NEW)
+UPDATE JS_102_TYKHXX A SET A.ORG_NUM = (SELECT T.ORG_NUM_BK FROM ORG_NEW T WHERE T.EFF_FLAG = 'Y' AND A.ORG_NUM = T.ORG_NUM_NEW)
+FROM JS_102_TYKHXX_ALL A WHERE /*A.FRNBJGH = '990000'AND*/ --20231130wxb
+```
+
+
 
 ## 5. 特殊处理规则
 
-无特殊处理。
+| 字段 | 规则 | 说明 |
+|------|------|------|
+| `...` | `CASE WHEN NVL2(B1.CUST_ID,B1.RELATED_TYP,B.RELATED_TYP) IS N...` | 字段映射规则 |
+| `...` | `/*      ,CASE WHEN NVL2(B1.CUST_ID,B1.ORG_NUM,B.ORG_NUM) LIK...` | 字段映射规则 |
+| `...` | `CASE WHEN NVL2(B1.CUST_ID,B1.ORG_NUM,B.ORG_NUM) LIKE '5100%'...` | 字段映射规则 |
+| `...` | `CASE WHEN A.FRNBJGH = '510000' THEN '912202016601010854'` | 字段映射规则 |
 
 ## 6. 历史变更记录
 

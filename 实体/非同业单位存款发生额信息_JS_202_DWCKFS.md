@@ -40,7 +40,8 @@
 
 ---
 
-# 第二部分# 第二部分：代码取数业务范围（实现层）
+
+# 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
 
@@ -65,11 +66,48 @@
 
 ## 4. 业务筛选条件
 
-详细取数逻辑见源码解析文件。
+**程序用途**：生成接口表 JS_202_DWCKFS 非同业单位存款发生额
+
+**SMTMODS 数据源表**：
+- `SMTMODS.L_TRAN_TX`
+- `SMTMODS.L_ACCT_DEPOSIT`
+- `SMTMODS.L_CUST_C`
+- `SMTMODS.L_PUBL_RATE`
+- `SMTMODS.L_FINA_GL`
+- `SMTMODS.L_ACCT_INNER`
+
+**时间筛选**：
+```sql
+WHERE T.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+```
+
+**业务筛选条件**：
+```sql
+WHERE TABLE_NAME = 'PBOCD_JS_202_DWCKFS_TMP'
+WHERE TABLE_NAME = 'PBOCD_JS_202_DWCKFS'
+AND (T.TRAN_CODE_DESCRIBE NOT IN ('转久悬', '久悬激活') OR (T.TRAN_CODE_DESCRIBE='久悬激活' AND TRANTYPE2_DESC='营业外激活'))
+WHEN B.ACCT_TYPE = '0601' AND B.GL_ITEM_CODE='20110201' THEN
+WHEN B.ACCT_TYPE = '0602' AND B.GL_ITEM_CODE='20110201' THEN--20220705-夏文博
+--CASE WHEN B.ACCT_TYPE = '0101' AND NVL(B.INT_RATE,0) = 0  THEN 4.5 else B.INT_RATE end, --17利率水平
+CASE WHEN T.TRANS_CHANNEL IN( 'JCBS','SMKS','NGIJ','HSFJ','JCMS','NBIS','EFSM','AG','CCUF','ISCP','FMSJ','DECD','CCIP','GBAJ','TIPS','DTIP') AND T.CD_TYPE = '2' THEN
+WHEN T.TRANS_CHANNEL = 'GLS' AND SUBSTR(T.SERIAL_NO,1,4)='FMSJ' AND T.CD_TYPE IN( '2','1' )THEN
+```
+
+
 
 ## 5. 特殊处理规则
 
-无特殊处理。
+| 字段 | 规则 | 说明 |
+|------|------|------|
+| `...` | `REGEXP_REPLACE(REGEXP_REPLACE(CASE WHEN T.CUST_ID LIKE '2999...` | 6注册地址 |
+| `...` | `CASE WHEN TO_CHAR(B.ST_INT_DT, 'YYYY-MM-DD')='1900-01-01'` | 字段映射规则 |
+| `...` | `CASE WHEN (` | 字段映射规则 |
+| `...` | `(CASE WHEN T.TRANS_AMT < 0 THEN` | 字段映射规则 |
+| `...` | `CASE WHEN T.CD_TYPE = '2' THEN '0' ELSE '1' END` | 字段映射规则 |
+| `...` | `CASE WHEN T.CD_TYPE = '2' THEN '1' ELSE '0' END` | 字段映射规则 |
+| `...` | `CASE WHEN T.TRANS_AMT < 0 THEN ABS(T.TRANS_AMT) ELSE T.TRANS...` | 15存款发生金额 |
+| `...` | `CASE WHEN T.TRANS_AMT < 0 THEN ABS(T.TRANS_AMT)*E.CCY_RATE E...` | 16存款发生金额折人民币 |
+| `...` | `CASE WHEN T.TRANS_AMT < 0 THEN` | 字段映射规则 |
 
 ## 6. 历史变更记录
 

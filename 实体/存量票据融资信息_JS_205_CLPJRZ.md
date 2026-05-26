@@ -40,7 +40,8 @@
 
 ---
 
-# 第二部分# 第二部分：代码取数业务范围（实现层）
+
+# 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
 
@@ -66,11 +67,50 @@
 
 ## 4. 业务筛选条件
 
-详细取数逻辑见源码解析文件。
+**程序用途**：生成接口表 JS_205_CLPJRZ 存量票据融资
+
+**SMTMODS 数据源表**：
+- `SMTMODS.L_ACCT_LOAN`
+- `SMTMODS.L_AGRE_BILL_INFO`
+- `SMTMODS.L_CUST_BILL_TY`
+- `SMTMODS.L_CUST_P`
+- `SMTMODS.L_CUST_ALL`
+- `SMTMODS.L_CUST_C`
+- `SMTMODS.L_PUBL_RATE`
+
+**时间筛选**：
+```sql
+WHERE T.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+```
+
+**业务筛选条件**：
+```sql
+WHERE TABLE_NAME = 'JS_205_CLPJRZ'
+,CASE WHEN SUBSTR(A.ITEM_CD,1,6)  in ('130101','130104' ) AND TRIM(B.BILL_TYPE) = '1'THEN 'A01'
+,CASE WHEN SUBSTR(A.ITEM_CD,1,6)  in ('130101','130104' ) AND TRIM(B.BILL_TYPE) = '1'THEN
+/*,CASE WHEN SUBSTR(A.ITEM_CD,1,6)  in ('130101','130104' ) AND TRIM(B.BILL_TYPE) = '1' THEN 'C01'
+,CASE WHEN SUBSTR(A.ITEM_CD,1,6)  in ('130101','130104' ) AND TRIM(B.BILL_TYPE) = '1' THEN
+,CASE WHEN SUBSTR(A.ITEM_CD,1,6)  in ('130101','130104' ) AND TRIM(B.BILL_TYPE) = '1' THEN
+) A WHERE A.RN=1) B
+ON A.LEGAL_TYSHXYDM=B.TYSHXYDM) WHERE RN = 1)FR
+```
+
+
 
 ## 5. 特殊处理规则
 
-无特殊处理。
+| 字段 | 规则 | 说明 |
+|------|------|------|
+| `...` | `CASE WHEN SUBSTR(A.ITEM_CD,1,6)  in ('130101','130104' ) THE...` | 字段映射规则 |
+| `...` | `CASE WHEN TRIM(B.BILL_TYPE) = '1' THEN '01'` | 银行承兑汇票 |
+| `...` | `CASE WHEN B.IS_P_BILL = 'Y' THEN '01'` | 字段映射规则 |
+| `...` | `/*,CASE WHEN H.TYSHXYDM IS NOT NULL THEN 'A01'` | 字段映射规则 |
+| `...` | `CASE WHEN SUBSTR(A.ITEM_CD,1,6)  in ('130101','130104' ) AND...` | 字段映射规则 |
+| `...` | `ELSE CASE WHEN H.TYSHXYDM IS NOT NULL THEN 'A01'` | 字段映射规则 |
+| `...` | `/*, CASE WHEN H.TYSHXYDM IS NOT NULL THEN H.TYSHXYDM` | 字段映射规则 |
+| `...` | `CASE WHEN SUBSTR(A.ITEM_CD,1,6)  in ('130101','130104' ) AND...` | 字段映射规则 |
+| `...` | `VL( CASE WHEN H.TYSHXYDM IS NOT NULL THEN H.TYSHXYDM` | 字段映射规则 |
+| `...` | `ELSE CASE WHEN H.TYSHXYDM IS NOT NULL THEN H.TYSHXYDM` | 字段映射规则 |
 
 ## 6. 历史变更记录
 

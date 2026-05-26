@@ -57,7 +57,7 @@ WHERE SUBSTR(T.TYPE_ID, 1, 8) IN ('62313113', '62313118')
 
 ```sql
 WHERE T.DATA_DATE = IS_DATE           -- 数据日期
-  AND T.MEDIUM_STAT = 'A'             -- 介质状态有效
+  AND T.MEDIUM_STAT = 'A'             -- 介质状态：A=有效
   AND SUBSTR(T.TYPE_ID, 1, 8) IN ('62313113', '62313118')  -- 互联网存款渠道
   AND T1.ACCT_BALANCE <> 0            -- 余额不为0
 ```

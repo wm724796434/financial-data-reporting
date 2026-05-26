@@ -40,7 +40,8 @@
 
 ---
 
-# 第二部分# 第二部分：代码取数业务范围（实现层）
+
+# 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
 
@@ -67,11 +68,47 @@
 
 ## 4. 业务筛选条件
 
-详细取数逻辑见源码解析文件。
+**程序用途**：生成接口表 JS_201_TYJDFS 同业借贷发生额信息
+
+**SMTMODS 数据源表**：
+- `SMTMODS.L_PUBL_RATE`
+- `SMTMODS.L_CUST_ALL`
+- `SMTMODS.L_CUST_C`
+- `SMTMODS.L_TRAN_FUND_FX`
+- `SMTMODS.L_ACCT_FUND_REPURCHASE`
+- `SMTMODS.L_AGRE_REPURCHASE_GUARANTY_INFO`
+- `SMTMODS.L_CUST_BILL_TY`
+
+**时间筛选**：
+```sql
+WHERE T.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+```
+
+**业务筛选条件**：
+```sql
+WHERE TABLE_NAME = 'PBOCD_JS_201_TYJDFS'
+SELECT * FROM SMTMODS.L_TRAN_FUND_FX WHERE  SUBSTR(TO_CHAR(TRAN_DT,'YYYYMMDD'),1,6) = SUBSTR(IS_DATE,1,6)  AND ITEM_CD IN ('111101','211101')
+WHERE A.RN = 1) A
+) A WHERE A.RN=1) B
+ON A.LEGAL_TYSHXYDM=B.TYSHXYDM) WHERE RN = 1)FR
+```
+
+
 
 ## 5. 特殊处理规则
 
-无特殊处理。
+| 字段 | 规则 | 说明 |
+|------|------|------|
+| `...` | `CASE WHEN BB.TYSHXYDM IS NOT NULL THEN BB.TYSHXYDM` | 字段映射规则 |
+| `...` | `CASE WHEN SUBSTR(T1.ACCT_TYP,1,3) IN ('202','205') THEN 'AL0...` | 资产负债类型 |
+| `...` | `CASE WHEN  T1.ORG_NUM ='009804' THEN  'TR01' ELSE NVL(T1.PRI...` | 定价基准类型 |
+| `...` | `CASE WHEN  T1.ACC_INT_TYPE ='1'  THEN 'B01'` | 字段映射规则 |
+| `...` | `CASE WHEN BB.TYSHXYDM IS NOT NULL THEN 'A01'` | 字段映射规则 |
+| `...` | `CASE WHEN T.TRADE_DIRECT = '0' THEN TO_CHAR(T1.MATURE_DATE, ...` | 合同实际终止日期 |
+| `...` | `CASE WHEN T1.ORG_NUM='009804' THEN '' ELSE  ( CASE WHEN BB.T...` | 字段映射规则 |
+| `...` | `CASE WHEN T1.ORG_NUM in('009804','009801') THEN '' ELSE  AA....` | 原客户名称 |
+| `...` | `CASE WHEN  T1.ORG_NUM in('009804','009801') THEN '' ELSE` | 字段映射规则 |
+| `...` | `(CASE WHEN BB.TYSHXYDM IS NOT NULL THEN BB.TYSHXYDM` | 字段映射规则 |
 
 ## 6. 历史变更记录
 

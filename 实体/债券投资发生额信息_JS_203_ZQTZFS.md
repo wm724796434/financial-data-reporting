@@ -40,7 +40,8 @@
 
 ---
 
-# 第二部分# 第二部分：代码取数业务范围（实现层）
+
+# 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
 
@@ -65,7 +66,29 @@
 
 ## 4. 业务筛选条件
 
-详细取数逻辑见源码解析文件。
+**程序用途**：
+
+**SMTMODS 数据源表**：
+- `SMTMODS.L_TRAN_FUND_FX`
+- `SMTMODS.L_ACCT_FUND_INVEST`
+- `SMTMODS.L_AGRE_BOND_INFO`
+- `SMTMODS.L_CUST_EXTERNAL_INFO`
+- `SMTMODS.L_CUST_ALL`
+- `SMTMODS.L_PUBL_RATE`
+
+**时间筛选**：
+```sql
+WHERE T.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+```
+
+**业务筛选条件**：
+```sql
+WHERE TABLE_NAME = 'PBOCD_JS_203_ZQTZFS'
+WHERE TO_CHAR(A.TRAN_DT, 'YYYYMM') = SUBSTR(IS_DATE, 1, 6) --- 交易日期存的就是 实际交割的日期
+WHERE TO_CHAR(A.TRAN_DT, 'YYYYMM') = SUBSTR(IS_DATE, 1, 6)
+```
+
+
 
 ## 5. 特殊处理规则
 

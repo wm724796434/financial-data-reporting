@@ -1,0 +1,27 @@
+[
+  {
+    "description": "标题重复错误（# 第二部分# 第二部分）：共28个实体文件",
+    "files": "实体/个人存款发生额信息_JS_202_GRCKFS.md、实体/个人客户基础信息_JS_102_GRKHXX.md、实体/个人贷款发生额信息_JS_201_GRDKFS.md、实体/债券发行发生额信息_JS_203_ZQFXFS.md、实体/债券投资发生额信息_JS_203_ZQTZFS.md、实体/再贴现发生额信息_JS_205_ZTXFS.md、实体/单位贷款发生额信息_JS_201_DWDKFS.md、实体/同业借贷发生额信息_JS_201_TYJDFS.md、实体/同业存款发生额信息_JS_202_TYCKFS.md、实体/委托贷款发生额信息_JS_201_WTDKFS.md、实体/存量专项贷款一批报文信息_JS_201_CLZXYP.md、实体/存量专项贷款二批报文信息_JS_201_CLZXEP.md、实体/存量个人存款信息_JS_202_CLGRCK.md、实体/存量个人贷款信息_JS_201_CLGRDK.md、实体/存量同业借贷信息_JS_201_CLTYJD.md、实体/存量同业存款信息_JS_202_CLTYCK.md、实体/存量收购处置信息_JS_201_CLSGCZ.md、实体/存量收购重组信息_JS_201_CLCZXX.md、实体/存量特定目的载体投资信息_JS_204_SPVTZX.md、实体/存量票据融资信息_JS_205_CLPJRZ.md、实体/存量股权投资信息_JS_204_CLGQTZ.md、实体/存量银行承兑汇票信息_JS_205_CLYHCD.md、实体/收购重组发生额信息_JS_201_CZXXFS.md、实体/票据融资发生额信息_JS_205_PJRZFS.md、实体/股权投资发生额信息_JS_204_GQTZFS.md、实体/金融机构（分支机构）基础信息_JS_101_JRJGFZ.md、实体/银行承兑汇票发生额信息_JS_205_YHCDFS.md、实体/非同业单位存款发生额信息_JS_202_DWCKFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "实体已标注源码未收录（两缺）：共14个实体文件",
+    "files": "实体/个人存款发生额信息_JS_202_GRCKFS.md、实体/债券发行发生额信息_JS_203_ZQFXFS.md、实体/存量专项贷款一批报文信息_JS_201_CLZXYP.md、实体/存量专项贷款二批报文信息_JS_201_CLZXEP.md、实体/存量收购处置信息_JS_201_CLSGCZ.md、实体/存量收购重组信息_JS_201_CLCZXX.md、实体/存量特定目的载体投资信息_JS_204_SPVTZX.md、实体/存量股权投资信息_JS_204_CLGQTZ.md、实体/收购重组发生额信息_JS_201_CZXXFS.md、实体/特定目的载体投资发生额信息_JS_204_SPVFSX.md、实体/股权投资发生额信息_JS_204_GQTZFS.md、实体/金融机构（法人）利润及资本统计表_JS_101_JGFRLR.md、实体/金融机构（法人）基本情况统计表_JS_101_JGFRJB.md、实体/金融机构（法人）资产负债及风险统计表_JS_101_JGFRZF.md",
+    "priority": "P2"
+  },
+  {
+    "description": "缺集市表（有源码但不引用SMTMODS）：再贴现发生额信息和同业客户基础信息",
+    "files": "实体/再贴现发生额信息_JS_205_ZTXFS.md、实体/同业客户基础信息_JS_102_TYKHXX.md",
+    "priority": "P1"
+  },
+  {
+    "description": "Part2内容单薄（缺少实质性SQL筛选条件和DECODE映射）：共29个实体文件",
+    "files": "实体/个人客户基础信息_JS_102_GRKHXX.md、实体/个人贷款发生额信息_JS_201_GRDKFS.md、实体/五篇大文章-3.10数字经济产业贷款发生额信息.md、实体/五篇大文章-3.2科技贷款发生额信息.md、实体/五篇大文章-3.6普惠贷款发生额信息.md、实体/五篇大文章-3.8养老产业贷款发生额信息.md、实体/五篇大文章-4.1科技贷款（含票据直贴）.md、实体/五篇大文章-4.2科技贷款（不含票据直贴）.md、实体/债券投资发生额信息_JS_203_ZQTZFS.md、实体/再贴现发生额信息_JS_205_ZTXFS.md、实体/单位贷款发生额信息_JS_201_DWDKFS.md、实体/单位贷款置换旧债发生额信息_JS_201_ZHJZFS.md、实体/同业借贷发生额信息_JS_201_TYJDFS.md、实体/同业存款发生额信息_JS_202_TYCKFS.md、实体/同业客户基础信息_JS_102_TYKHXX.md、实体/委托贷款发生额信息_JS_201_WTDKFS.md、实体/存贷款客户核对_JS_201_HDACLHLDK.md、实体/存量个人存款信息_JS_202_CLGRCK.md、实体/存量个人贷款信息_JS_201_CLGRDK.md、实体/存量再贴现信息_JS_205_CLZTX.md、实体/存量同业借贷信息_JS_201_CLTYJD.md、实体/存量同业存款信息_JS_202_CLTYCK.md、实体/存量票据融资信息_JS_205_CLPJRZ.md、实体/存量银行承兑汇票信息_JS_205_CLYHCD.md、实体/存量非同业单位存款信息_JS_202_FTYDWC.md、实体/票据融资发生额信息_JS_205_PJRZFS.md、实体/金融机构（分支机构）基础信息_JS_101_JRJGFZ.md、实体/银行承兑汇票发生额信息_JS_205_YHCDFS.md、实体/非同业单位存款发生额信息_JS_202_DWCKFS.md",
+    "priority": "P2"
+  },
+  {
+    "description": "两缺（无未收录标注）：五篇大文章-4.1科技贷款（含票据直贴）和五篇大文章-4.2科技贷款（不含票据直贴）",
+    "files": "实体/五篇大文章-4.1科技贷款（含票据直贴）.md、实体/五篇大文章-4.2科技贷款（不含票据直贴）.md",
+    "priority": "P1"
+  }
+]

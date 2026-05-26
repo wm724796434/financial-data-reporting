@@ -40,6 +40,7 @@
 
 ---
 
+
 # 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
@@ -69,16 +70,16 @@
 ### 3.1 抵质押物有效性
 
 ```sql
-WHERE GI.COLL_STATUS = 'Y'            -- 抵质押物状态有效
-  AND GR.REL_STATUS = 'Y'             -- 担保关系存续
+WHERE GI.COLL_STATUS = 'Y'            -- 抵质押物状态：Y=有效、N=无效
+  AND GR.REL_STATUS = 'Y'             -- 担保关系状态：Y=存续、N=解除
 ```
 
 ### 3.2 贷款余额及状态过滤
 
 ```sql
-WHERE D.LOAN_ACCT_BAL > 0            -- 余额大于0
-  AND D.CANCEL_FLG = 'N'             -- 未核销
-  AND D.LOAN_STOCKEN_DATE IS NULL    -- 资产未转让
+WHERE D.LOAN_ACCT_BAL > 0            -- 贷款余额大于0
+  AND D.CANCEL_FLG = 'N'             -- 码表A0010：N=否（未核销），排除Y=是（已核销）
+  AND D.LOAN_STOCKEN_DATE IS NULL    -- 资产证券化日期为空，即资产未转让
 ```
 
 ### 3.3 核销客户剔除
@@ -108,7 +109,7 @@ SELECT GR.GUAR_CONTRACT_NUM, SUM(GI.COLL_MK_VAL) AS COLL_VALUE
   FROM SMTMODS.L_AGRE_GUARANTY_INFO GI
  INNER JOIN SMTMODS.L_AGRE_GUARANTEE_RELATION GR
     ON GI.GUARANTEE_SERIAL_NUM = GR.GUARANTEE_SERIAL_NUM
- WHERE GI.COLL_STATUS = 'Y' AND GR.REL_STATUS = 'Y'
+ WHERE GI.COLL_STATUS = 'Y' AND GR.REL_STATUS = 'Y'  -- 抵质押物状态：Y=有效，排除N=无效
  GROUP BY GR.GUAR_CONTRACT_NUM;
 ```
 
@@ -119,8 +120,8 @@ SELECT GR.GUAR_CONTRACT_NUM, SUM(GI.COLL_MK_VAL) AS COLL_VALUE
 ```sql
 SELECT D.ACCT_NUM, SUM(D.LOAN_ACCT_BAL) AS LOAN_ACCT_BAL_SUM
   FROM SMTMODS.L_ACCT_LOAN D
- WHERE D.LOAN_ACCT_BAL > 0 AND D.CANCEL_FLG = 'N'
-   AND D.LOAN_STOCKEN_DATE IS NULL
+ WHERE D.LOAN_ACCT_BAL > 0 AND D.CANCEL_FLG = 'N'  -- 码表A0010（是否标志）：N=否（未核销），排除Y=是（已核销）
+   AND D.LOAN_STOCKEN_DATE IS NULL  -- 资产证券化日期为空，即资产未转让
  GROUP BY D.ACCT_NUM;
 ```
 

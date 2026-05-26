@@ -160,25 +160,25 @@ BEGIN
      FRNBJGH -- 法人内部机构号
      )
     SELECT /*+PARALLEL(4)*/
-     VS_TEXT AS DATA_DATE, --数据日期
-     FIELD_TYPE, --字段类别
-     SUM(BALANCE_SUM), --贷款汇总金额
-     SUM(INT_RATE_WA), --贷款汇总加权平均利率
-     SUM(GET_LOAN_NUM), --贷款汇总获贷企业数量
-     SYS_GUID() AS REPORT_ID, --ID
-     IS_DATE AS CJRQ, --采集日期
-     NBJGH || '0000', --内部机构号
-     '99' BIZ_LINE_ID, --业务条线ID
-     NULL VERIFY_STATUS, --校验状态
-     IS_DATE AS BSCJRQ, --报送采集日期
-     NBJGH || '0000' --法人内部机构号
+     VS_TEXT AS DATA_DATE, -- → DATA_DATE  数据日期
+     FIELD_TYPE, -- → FIELD_TYPE  字段类别
+     SUM(BALANCE_SUM), -- → BALANCE_SUM  贷款汇总金额
+     SUM(INT_RATE_WA), -- → INT_RATE_WA  贷款汇总加权平均利率
+     SUM(GET_LOAN_NUM), -- → GET_LOAN_NUM  贷款汇总获贷企业数量
+     SYS_GUID() AS REPORT_ID, -- → REPORT_ID  ID
+     IS_DATE AS CJRQ, -- → CJRQ  采集日期
+     NBJGH || '0000', -- → NBJGH  内部机构号
+     '99' BIZ_LINE_ID, -- → BIZ_LINE_ID  业务条线ID
+     NULL VERIFY_STATUS, -- → VERIFY_STATUS  校验状态
+     IS_DATE AS BSCJRQ, -- → BSCJRQ  报送采集日期
+     NBJGH || '0000' -- → FRNBJGH  法人内部机构号
       FROM (SELECT 'T01' AS FIELD_TYPE, --字段类别 --数字经济核心产业贷款汇总
                    SUM((CASE
                          WHEN A.ACCT_TYP NOT LIKE '0301%' THEN
                           A.LOAN_ACCT_BAL
                          ELSE
                           A.DRAWDOWN_AMT - NVL(A.DISCOUNT_INTEREST, 0)
-                       END) * B.CCY_RATE) AS BALANCE_SUM, --贷款汇总金额
+                       END) * B.CCY_RATE) AS BALANCE_SUM, -- → BALANCE_SUM  贷款汇总金额（余额×汇率，贴现则放款金额-贴现利息）
                    CASE
                      WHEN SUM(CASE
                                 WHEN A.ACCT_TYP NOT LIKE '0301%' THEN
@@ -201,14 +201,14 @@ BEGIN
                                    A.DRAWDOWN_AMT - NVL(A.DISCOUNT_INTEREST, 0)
                                 END),
                             5)
-                   END INT_RATE_WA, --贷款汇总加权平均利率
-                   COUNT(DISTINCT A.CUST_ID) AS GET_LOAN_NUM, --贷款汇总获贷企业数量
+                   END INT_RATE_WA, -- → INT_RATE_WA  贷款汇总加权平均利率（金额加权，5位小数）
+                   COUNT(DISTINCT A.CUST_ID) AS GET_LOAN_NUM, -- → GET_LOAN_NUM  贷款汇总获贷企业数量（去重客户数）
                    CASE
                      WHEN SUBSTR(A.ORG_NUM, 1, 2) BETWEEN '51' AND '60' THEN
                       SUBSTR(A.ORG_NUM, 1, 2)
                      ELSE
                       '99'
-                   END AS NBJGH --内部机构号
+                   END AS NBJGH -- → NBJGH  内部机构号（ORG_NUM前两位，不在51-60则'99'）
               FROM PBOCD_DATACORE.PBOCD_JS_201_HDASZDKFS_TMP1 A
               LEFT JOIN SMTMODS.L_PUBL_RATE B
                 ON B.DATA_DATE = IS_DATE
@@ -253,18 +253,18 @@ BEGIN
      FRNBJGH -- 法人内部机构号
      )
     SELECT /*+PARALLEL(4)*/
-     VS_TEXT AS DATA_DATE, --数据日期
-     FIELD_TYPE, --字段类别
-     SUM(BALANCE_SUM), --贷款汇总金额
-     SUM(INT_RATE_WA), --贷款汇总加权平均利率
-     SUM(GET_LOAN_NUM), --贷款汇总获贷企业数量
-     SYS_GUID() AS REPORT_ID, --ID
-     IS_DATE AS CJRQ, --采集日期
-     NBJGH || '0000', --内部机构号
-     '99' BIZ_LINE_ID, --业务条线ID
-     NULL VERIFY_STATUS, --校验状态
-     IS_DATE AS BSCJRQ, --报送采集日期
-     NBJGH || '0000' --法人内部机构号
+     VS_TEXT AS DATA_DATE, -- → DATA_DATE  数据日期
+     FIELD_TYPE, -- → FIELD_TYPE  字段类别
+     SUM(BALANCE_SUM), -- → BALANCE_SUM  贷款汇总金额
+     SUM(INT_RATE_WA), -- → INT_RATE_WA  贷款汇总加权平均利率
+     SUM(GET_LOAN_NUM), -- → GET_LOAN_NUM  贷款汇总获贷企业数量
+     SYS_GUID() AS REPORT_ID, -- → REPORT_ID  ID
+     IS_DATE AS CJRQ, -- → CJRQ  采集日期
+     NBJGH || '0000', -- → NBJGH  内部机构号
+     '99' BIZ_LINE_ID, -- → BIZ_LINE_ID  业务条线ID
+     NULL VERIFY_STATUS, -- → VERIFY_STATUS  校验状态
+     IS_DATE AS BSCJRQ, -- → BSCJRQ  报送采集日期
+     NBJGH || '0000' -- → FRNBJGH  法人内部机构号
       FROM (SELECT CASE
                      WHEN /*A.FLAG = '5.1' OR */
                       SUBSTR(A.FLAG, 1, 2) = '01' THEN
@@ -278,13 +278,13 @@ BEGIN
                      WHEN /*A.FLAG = '5.4' OR */
                       SUBSTR(A.FLAG, 1, 2) = '04' THEN
                       'T05' --数字要素驱动业贷款汇总
-                   END AS FIELD_TYPE, --字段类别
+                   END AS FIELD_TYPE, -- → FIELD_TYPE  字段类别（按数字经济子行业分类）
                    SUM((CASE
                          WHEN A.ACCT_TYP NOT LIKE '0301%' THEN
                           A.LOAN_ACCT_BAL
                          ELSE
                           A.DRAWDOWN_AMT - NVL(A.DISCOUNT_INTEREST, 0)
-                       END) * B.CCY_RATE) AS BALANCE_SUM, --贷款汇总金额
+                       END) * B.CCY_RATE) AS BALANCE_SUM, -- → BALANCE_SUM  贷款汇总金额（余额×汇率，贴现则放款金额-贴现利息）
                    CASE
                      WHEN SUM(CASE
                                 WHEN A.ACCT_TYP NOT LIKE '0301%' THEN
@@ -307,14 +307,14 @@ BEGIN
                                    A.DRAWDOWN_AMT - NVL(A.DISCOUNT_INTEREST, 0)
                                 END),
                             5)
-                   END INT_RATE_WA, --贷款汇总加权平均利率
-                   COUNT(DISTINCT A.CUST_ID) AS GET_LOAN_NUM, --贷款汇总获贷企业数量
+                   END INT_RATE_WA, -- → INT_RATE_WA  贷款汇总加权平均利率（金额加权，5位小数）
+                   COUNT(DISTINCT A.CUST_ID) AS GET_LOAN_NUM, -- → GET_LOAN_NUM  贷款汇总获贷企业数量（去重客户数）
                    CASE
                      WHEN SUBSTR(A.ORG_NUM, 1, 2) BETWEEN '51' AND '60' THEN
                       SUBSTR(A.ORG_NUM, 1, 2)
                      ELSE
                       '99'
-                   END AS NBJGH --内部机构号
+                   END AS NBJGH -- → NBJGH  内部机构号（ORG_NUM前两位，不在51-60则'99'）
               FROM PBOCD_DATACORE.PBOCD_JS_201_HDASZDKFS_TMP1 A
               LEFT JOIN SMTMODS.L_PUBL_RATE B
                 ON B.DATA_DATE = IS_DATE
@@ -383,36 +383,36 @@ BEGIN
      DISCOUNT_INTEREST -- 贴现利息
      )
     SELECT /*+PARALLEL(4)*/
-     VS_TEXT AS DATA_DATE, --数据日期
-     'T99', --字段类别
-     NVL(OB.ID_NO, OB.UP_ID_NO), --金融机构代码
-     T.ORG_NUM, --内部机构号
+     VS_TEXT AS DATA_DATE, -- → DATA_DATE  数据日期（IS_DATE格式化为YYYY-MM-DD）
+     'T99', -- → FIELD_TYPE  字段类别，固定值T99=逐笔明细
+     NVL(OB.ID_NO, OB.UP_ID_NO), -- → ORG_CODE  金融机构代码（金数机构表）
+     T.ORG_NUM, -- → ORG_NUM  内部机构号（L_ACCT_LOAN.ORG_NUM）
      CASE
        WHEN T.ACCT_TYP NOT LIKE '0301%' THEN
         T.ACCT_NUM
        ELSE
         '0'
-     END, --贷款合同编码
+     END, -- → CONTRACT_CODE  贷款合同编码（非贴现取账号，贴现取'0'）
      CASE
        WHEN T.ACCT_TYP NOT LIKE '0301%' THEN
         T.LOAN_NUM
        ELSE
         '0'
-     END, --贷款借据编码
+     END, -- → LOAN_NUM  贷款借据编码（非贴现取借据号，贴现取'0'）
      CASE
        WHEN T.ACCT_TYP LIKE '0301%' THEN
         T.ACCT_NUM || T.DRAFT_RNG
        ELSE
         '0'
-     END, --票据编号
-     '1', --交易流水号
+     END, -- → BILL_NUM  票据编号（贴现取"账号+票据号"，非贴现取'0'）
+     '1', -- → SERIAL_NO  交易流水号，固定值'1'
      CASE
        WHEN /*T.FLAG IN ('5.1', '5.2', '5.3', '5.4') OR*/
             SUBSTR(T.FLAG, 1, 2) IN ('01', '02', '03', '04') THEN
         '1'
        ELSE
         '0'
-     END, --是否数字经济核心产业贷款
+     END, -- → DEIDY_LOAN_FLG  是否数字经济核心产业贷款（FLAG前两位∈01~04则'1'）
      CASE
        WHEN SUBSTR(T.FLAG, 1, 2) = '01' THEN
         'DE01' --数字产品制造业
@@ -422,20 +422,20 @@ BEGIN
         'DE03' --数字技术应用业
        WHEN SUBSTR(T.FLAG, 1, 2) = '04' THEN
         'DE04' --数字要素驱动业
-     END, --数字经济核心产业贷款类型
-     '0', --是否数字化效率提升业贷款  带*行业
+     END, -- → DEIDY_LOAN_TYPE  数字经济核心产业贷款类型
+     '0', -- → DIGI_EFF_FLG  是否数字化效率提升业贷款（固定'0'，预留带*行业）
      CASE
        WHEN T.ACCT_TYP NOT LIKE '0301%' THEN
         'C01' --单位贷款
        ELSE
         'C03' --票据融资
-     END, --业务类别
-     SYS_GUID() AS REPORT_ID, --ID
-     IS_DATE AS CJRQ, --采集日期
-     T.ORG_NUM AS NBJGH, --内部机构号
-     '99' BIZ_LINE_ID, --业务条线ID
-     NULL VERIFY_STATUS, --校验状态
-     IS_DATE AS BSCJRQ, --报送采集日期
+     END, -- → BIZ_TYPE  业务类别（非贴现=C01单位贷款，贴现=C03票据融资）
+     SYS_GUID() AS REPORT_ID, -- → REPORT_ID  ID（系统生成GUID）
+     IS_DATE AS CJRQ, -- → CJRQ  采集日期（参数传入）
+     T.ORG_NUM AS NBJGH, -- → NBJGH  内部机构号
+     '99' BIZ_LINE_ID, -- → BIZ_LINE_ID  业务条线ID，固定'99'
+     NULL VERIFY_STATUS, -- → VERIFY_STATUS  校验状态，固定NULL
+     IS_DATE AS BSCJRQ, -- → BSCJRQ  报送采集日期
      CASE
        WHEN T.ORG_NUM LIKE '51%' THEN
         '510000'
@@ -459,14 +459,14 @@ BEGIN
         '600000'
        ELSE
         '990000'
-     END FRNBJGH, --法人内部机构号
-     T.CUST_ID, --客户号
-     A2.CUST_NAM, --客户名
-     T.LOAN_ACCT_BAL, --贷款余额
-     T.CURR_CD, -- 币种
-     T.LOAN_ACCT_BAL * U.CCY_RATE, --贷款余额折人民币
-     T.DRAWDOWN_AMT, --放款金额
-     T.DISCOUNT_INTEREST --贴现利息
+     END FRNBJGH, -- → FRNBJGH  法人内部机构号（ORG_NUM前两位映射省码）
+     T.CUST_ID, -- → CUST_ID  客户号（L_ACCT_LOAN.CUST_ID）
+     A2.CUST_NAM, -- → CUST_NAME  客户名（L_CUST_ALL.CUST_NAM）
+     T.LOAN_ACCT_BAL, -- → LOAN_ACCT_BAL  贷款余额（L_ACCT_LOAN.LOAN_ACCT_BAL）
+     T.CURR_CD, -- → CURR_CD  币种（L_ACCT_LOAN.CURR_CD）
+     T.LOAN_ACCT_BAL * U.CCY_RATE, -- → LOAN_ACCT_BAL_RMB  贷款余额折人民币（余额×汇率）
+     T.DRAWDOWN_AMT, -- → DRAWDOWN_AMT  放款金额（L_ACCT_LOAN.DRAWDOWN_AMT）
+     T.DISCOUNT_INTEREST -- → DISCOUNT_INTEREST  贴现利息（L_ACCT_LOAN.DISCOUNT_INTEREST）
       FROM PBOCD_DATACORE.PBOCD_JS_201_HDASZDKFS_TMP1 T
       LEFT JOIN SMTMODS.L_CUST_ALL A2
         ON A2.DATA_DATE = IS_DATE

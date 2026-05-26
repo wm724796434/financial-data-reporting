@@ -40,7 +40,8 @@
 
 ---
 
-# 第二部分# 第二部分：代码取数业务范围（实现层）
+
+# 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
 
@@ -65,11 +66,48 @@
 
 ## 4. 业务筛选条件
 
-详细取数逻辑见源码解析文件。
+**程序用途**：生成接口表 JS_201_WTDKFS 委托贷款发生额信息
+
+**SMTMODS 数据源表**：
+- `SMTMODS.L_ACCT_LOAN`
+- `SMTMODS.L_TRAN_LOAN_PAYM`
+- `SMTMODS.L_CUST_C`
+- `SMTMODS.L_CUST_P`
+- `SMTMODS.L_Cust_ALL`
+- `SMTMODS.L_ACCT_LOAN_ENTRUST`
+
+**时间筛选**：
+```sql
+WHERE T.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+```
+
+**业务筛选条件**：
+```sql
+WHERE TABLE_NAME = 'JS_201_WTDKFS'
+WHERE  trim(LC.Legal_Card_TYPE) = D4.L_CODE
+AND D4.CODE_CLMN_NAME = 'ID_TYPE')
+WHERE  trim(LC.Legal_Card_TYPE) = D4.L_CODE
+AND D4.CODE_CLMN_NAME = 'ID_TYPE')
+AND CD1.CODE_CLMN_NAME = 'ID_TYPE'
+AND CD2.CODE_CLMN_NAME = 'ID_TYPE' --借款人证件代码
+AND CD3.CODE_CLMN_NAME = 'CORP_HOLD_TYPE' --企业控股类型
+```
+
+
 
 ## 5. 特殊处理规则
 
-无特殊处理。
+| 字段 | 规则 | 说明 |
+|------|------|------|
+| `...` | `VL2(LP.CUST_ID, 'D01', CASE when LC.CUST_TYP='3'  THEN 'D01'...` | 借款人国民经济部门 |
+| `...` | `/*CASE WHEN LC.CUST_TYP='3' THEN` | 字段映射规则 |
+| `...` | `VL2(LC.ID_NO,CASE WHEN LENGTH(LC.ID_NO) = 18 THEN 'A01' ELSE...` | 字段映射规则 |
+| `...` | `CASE WHEN LP.ID_TYPE IS NOT NULL THEN LP.ID_NO` | 字段映射规则 |
+| `...` | `CASE WHEN LC.CUST_TYP='3' THEN` | 字段映射规则 |
+| `...` | `CASE WHEN  LC.CUST_TYP='3' THEN '' ELSE CD3.PBOCD_CODE END,` | 借款人经济成分 |
+| `...` | `CASE WHEN LC.CUST_TYP='3' THEN NULL` | 字段映射规则 |
+| `...` | `VL2(LC.id_no,CASE WHEN LENGTH(LC.id_no) = 18 THEN 'A01' ELSE...` | 委托人证件类型 |
+| `...` | `VL2(LP.CUST_ID,LP.ID_NO,CASE WHEN CD1.PBOCD_CODE = 'A02' THE...` | 委托人证件代码 |
 
 ## 6. 历史变更记录
 

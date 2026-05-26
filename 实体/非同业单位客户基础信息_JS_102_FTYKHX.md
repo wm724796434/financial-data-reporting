@@ -40,6 +40,7 @@
 
 ---
 
+
 # 第二部分：代码取数业务范围（实现层）
 
 > **用于回答"这个表怎么取数"、"取了哪些业务"、"业务变更对金数有什么影响"等问题**
@@ -68,7 +69,7 @@
 INSERT INTO JS_102_FTYKHX_TEMP04
   SELECT T.CUST_ID
     FROM SMTMODS.L_AGRE_LOAN_CONTRACT T
-   WHERE DATA_DATE = IS_DATE;
+   WHERE DATA_DATE = IS_DATE;  -- 数据日期
 ```
 
 ### 3.2 科目排除
@@ -83,10 +84,10 @@ WHERE T.ITEM_CD NOT LIKE '301%'    -- 排除存款类科目
 ### 3.3 核销与转让排除
 
 ```sql
-WHERE (A.CANCEL_FLG = 'Y' OR A.LOAN_STOCKEN_DATE IS NOT NULL)  -- 核销或已转让
+WHERE (A.CANCEL_FLG = 'Y' OR A.LOAN_STOCKEN_DATE IS NOT NULL)  -- 核销（码表A0010：Y=是(已核销)）或已转让（证券化日期非空=已转让）
   AND NOT EXISTS (SELECT 1 FROM SMTMODS.L_ACCT_LOAN B
-                   WHERE B.DATA_DATE = IS_DATE
-                     AND (B.CANCEL_FLG = 'N' AND B.LOAN_STOCKEN_DATE IS NULL)
+                   WHERE B.DATA_DATE = IS_DATE  -- 数据日期等于跑批日期，取当前批次数据
+                     AND (B.CANCEL_FLG = 'N' AND B.LOAN_STOCKEN_DATE IS NULL)  -- 未核销（码表A0010：N=否(未核销)）且资产未转让（证券化日期为空=未转让）
                      AND A.CUST_ID = B.CUST_ID)  -- 客户名下所有借据均已核销/转让
 ```
 

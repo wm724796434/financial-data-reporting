@@ -70,7 +70,7 @@
 INSERT INTO JS_102_FTYKHX_TEMP03
   SELECT T.CUST_ID, COUNT(1) BS
     FROM SMTMODS.L_ACCT_LOAN T
-   WHERE T.CANCEL_FLG = 'Y'         -- 核销贷款
+   WHERE T.CANCEL_FLG = 'Y'         -- 码表A0010（是否标志）：Y=是（已核销，标记为核销客户）；N=否（未核销）
    GROUP BY T.CUST_ID;
 ```
 
