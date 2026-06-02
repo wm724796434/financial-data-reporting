@@ -1,0 +1,15 @@
+# JS_102_FTYKHX_TSCL — 取数范围
+
+> 来源程序: `bsp_sp_js_102_ftykhx_tscl.prc`
+
+## 数据源表（FROM）
+
+
+## 关联条件（JOIN）
+
+
+## 筛选条件（WHERE）
+
+1. `A.CJRQ = VS_LAST_TEXT`
+2. `A.FRNBJGH = '990000'`
+3. `NOT EXISTS(SELECT * FROM PBOCD_JS_102_FTYKHX AS B WHERE B.CJRQ = IS_DATE AND B.FRNBJGH = '990000' AND A.CUST_ID_NO = B.CUST_ID_NO)`

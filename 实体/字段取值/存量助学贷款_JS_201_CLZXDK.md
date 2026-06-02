@@ -1,0 +1,153 @@
+# 存量助学贷款_JS_201_CLZXDK — 字段取值
+
+> 来源程序: `bsp_sp_js_201_clzxdk.prc`
+
+## 字段映射
+
+| 序号 | 目标字段(alias) | 源表达式(expression) |
+|------|----------------|---------------------|
+| 1 | `(无)` | `COUNT(1)` |
+| 2 | `(无)` | `T.LOAN_NUM` |
+| 3 | `(无)` | `T.CONTRACT_CODE` |
+| 4 | `(无)` | `CUST_ID` |
+| 5 | `(无)` | `OPERATE_CUST_TYPE` |
+| 6 | `(无)` | `'A'` |
+| 7 | `(无)` | `CONTRACT_NUM` |
+| 8 | `(无)` | `A.GREEN_LOAN_TYPE` |
+| 9 | `(无)` | `LOAN_NUM` |
+| 10 | `(无)` | `UNDERTAK_GUAR_TYPE` |
+| 11 | `(无)` | `F.DATA_DATE` |
+| 12 | `(无)` | `F.ACCT_NUM` |
+| 13 | `(无)` | `F.LOAN_NUM` |
+| 14 | `(无)` | `F.AGRICULTURE_TYP` |
+| 15 | `(无)` | `F.AGREI_P_FLG` |
+| 16 | `(无)` | `F.AGRICULTURE_LOAN_FLG` |
+| 17 | `(无)` | `F.COMP_INT_FLG` |
+| 18 | `(无)` | `F.COMP_INT_TYP` |
+| 19 | `(无)` | `F.COMP_INT_AMT` |
+| 20 | `(无)` | `F.LOAN_TYP` |
+| 21 | `(无)` | `F.COOP_LAON_FLAG` |
+| 22 | `(无)` | `F.RURAL_RIGNTS_LOAN_TYPE` |
+| 23 | `(无)` | `F.RUR_COLL_ECO_ORG_LOAN_FLG` |
+| 24 | `(无)` | `F.DEPARTMENTD` |
+| 25 | `(无)` | `F.DATE_SOURCESD` |
+| 26 | `SNDKFL` | `CASE WHEN P.CUST_ID IS NULL AND NOT C.CUST_ID IS NULL AND NOT M.P_SNDKFL IS NULL THEN M.P_SNDKFL ELSE F.SNDKFL END AS SNDKFL` |
+| 27 | `(无)` | `F.AGR_USE_ADDL` |
+| 28 | `(无)` | `IS_DATE` |
+| 29 | `(无)` | `A.YSSJKHXM` |
+| 30 | `WJFL` | `CASE WHEN B.LOAN_GRADE_CD = '1' THEN '正常' WHEN B.LOAN_GRADE_CD = '2' THEN '关注' WHEN B.LOAN_GRADE_CD = '3' THEN '次级' WHEN B.LOAN_GRADE_CD = '4' THEN '可疑' WHEN B.LOAN_GRADE_CD = '5' THEN '损失' END AS WJF...` |
+| 31 | `(无)` | `A.ORG_CODE` |
+| 32 | `(无)` | `A.JRJGDQ` |
+| 33 | `(无)` | `B.ORG_NUM` |
+| 34 | `(无)` | `A.DATASOURCE` |
+| 35 | `(无)` | `A.CUST_ID` |
+| 36 | `(无)` | `A.KHXZ` |
+| 37 | `(无)` | `A.CUST_NAME` |
+| 38 | `(无)` | `A.KHSFZH` |
+| 39 | `(无)` | `A.ADDR` |
+| 40 | `(无)` | `A.LOAN_NUM` |
+| 41 | `DKFFJE` | `B.DRAWDOWN_AMT AS DKFFJE` |
+| 42 | `LOAN_ACCT_BAL` | `B.LOAN_ACCT_BAL AS LOAN_ACCT_BAL` |
+| 43 | `(无)` | `A.DKLL` |
+| 44 | `(无)` | `A.DKFKRQ` |
+| 45 | `(无)` | `A.DKHTDQRQ` |
+| 46 | `DKSJZZRI` | `CAST(B.ACTUAL_MATURITY_DT AS TEXT) AS DKSJZZRI` |
+| 47 | `(无)` | `A.DKPZ` |
+| 48 | `(无)` | `A.DKZL` |
+| 49 | `(无)` | `A.DBFS` |
+| 50 | `(无)` | `A.XEXD` |
+| 51 | `(无)` | `A.DKZJLY` |
+| 52 | `(无)` | `A.FPDDRS` |
+| 53 | `(无)` | `A.COD_CC_BRN` |
+| 54 | `名单客户名` | `P.COL_13 AS "名单客户名"` |
+| 55 | `贷款五级分类` | `CASE WHEN B.LOAN_GRADE_CD = '1' THEN '正常' WHEN B.LOAN_GRADE_CD = '2' THEN '关注' WHEN B.LOAN_GRADE_CD = '3' THEN '次级' WHEN B.LOAN_GRADE_CD = '4' THEN '可疑' WHEN B.LOAN_GRADE_CD = '5' THEN '损失' END AS "贷款...` |
+| 56 | `金融机构代码` | `'' AS "金融机构代码"` |
+| 57 | `金融机构地区` | `'' AS "金融机构地区"` |
+| 58 | `机构号` | `B.ORG_NUM AS "机构号"` |
+| 59 | `条线` | `B.DEPARTMENTD AS "条线"` |
+| 60 | `客户编号` | `A.CUST_ID AS "客户编号"` |
+| 61 | `客户性质` | `CASE WHEN P.COL_11 = '脱贫' THEN '已脱贫' ELSE P.COL_11 END AS "客户性质"` |
+| 62 | `客户姓名` | `A.CUST_NAM AS "客户姓名"` |
+| 63 | `客户身份证号` | `A.ID_NO AS "客户身份证号"` |
+| 64 | `客户所在地区` | `A.REGION_CD AS "客户所在地区"` |
+| 65 | `贷款借据编号` | `B.LOAN_NUM AS "贷款借据编号"` |
+| 66 | `贷款发放金额` | `B.DRAWDOWN_AMT AS "贷款发放金额"` |
+| 67 | `贷款余额` | `B.LOAN_ACCT_BAL AS "贷款余额"` |
+| 68 | `贷款利率` | `B.REAL_INT_RAT AS "贷款利率"` |
+| 69 | `贷款放款日期` | `CAST(B.DRAWDOWN_DT AS TEXT) AS "贷款放款日期"` |
+| 70 | `贷款合同到期日` | `CAST(C.CONTRACT_ORIG_MATURITY_DT AS TEXT) AS "贷款合同到期日"` |
+| 71 | `贷款实际终止日` | `CAST(B.ACTUAL_MATURITY_DT AS TEXT) AS "贷款实际终止日"` |
+| 72 | `贷款品种` | `C.PROD_NAME AS "贷款品种"` |
+| 73 | `贷款质量` | `NULL AS "贷款质量"` |
+| 74 | `担保方式` | `B.GUARANTY_TYP AS "担保方式"` |
+| 75 | `(无)` | `NULL` |
+| 76 | `贷款资金来源` | `P.COL_11 AS "贷款资金来源"` |
+| 77 | `人精准扶贫贷款带动人数` | `NULL AS "人精准扶贫贷款带动人数"` |
+| 78 | `COD_CC_BRN` | `B.ORG_NUM AS "COD_CC_BRN"` |
+| 79 | `DATA_DATE` | `IS_DATE AS DATA_DATE` |
+| 80 | `(无)` | `''` |
+| 81 | `LOAN_NUM` | `T.LOAN_NUM AS LOAN_NUM` |
+| 82 | `CONTRACT_CODE` | `T.ACCT_NUM AS CONTRACT_CODE` |
+| 83 | `INDIVBUSI_FLG` | `CASE WHEN P.OPERATE_CUST_TYPE = 'A' AND (T.ACCT_TYP = '010299' OR T.ACCT_TYP LIKE '0102%') THEN '1' ELSE '0' END AS INDIVBUSI_FLG` |
+| 84 | `SMBUSI_FLG` | `CASE WHEN P.OPERATE_CUST_TYPE = 'B' AND (T.ACCT_TYP = '010299' OR T.ACCT_TYP LIKE '0102%') THEN '1' ELSE '0' END AS SMBUSI_FLG` |
+| 85 | `AGRI_FLG` | `CASE WHEN NOT F.SNDKFL IS NULL AND (CASE WHEN SUBSTRING(F.SNDKFL, 0, 7) IN ('C_10202', 'C_20202') AND (COALESCE(F.AGR_USE_ADDL, '#') IN ('05') OR COALESCE(T.LOAN_PURPOSE_CD, '#') IN ('A0514', 'A0523')...` |
+| 86 | `AGRI_TYPE` | `CASE WHEN NOT F.SNDKFL IS NULL AND (CASE WHEN SUBSTRING(F.SNDKFL, 0, 7) IN ('C_10202', 'C_20202') AND (COALESCE(F.AGR_USE_ADDL, '#') IN ('05') OR COALESCE(T.LOAN_PURPOSE_CD, '#') IN ('A0514', 'A0523')...` |
+| 87 | `POORLOAN_FLG` | `CASE WHEN NOT J.LOAN_NUM IS NULL THEN '1' WHEN NOT J1.LOAN_NUM IS NULL THEN '1' ELSE '0' END AS POORLOAN_FLG` |
+| 88 | `POORPER_FLG` | `NULL AS POORPER_FLG` |
+| 89 | `LGOVFIN_FLG` | `NULL AS LGOVFIN_FLG` |
+| 90 | `LGOV_TYPE` | `NULL AS LGOV_TYPE` |
+| 91 | `LGOV_LEVEL` | `NULL AS LGOV_LEVEL` |
+| 92 | `LGOVCAPITAL_TYPE` | `NULL AS LGOVCAPITAL_TYPE` |
+| 93 | `LINCOMEHOUSE_FLG` | `CASE WHEN B.LOAN_NUM IS NULL THEN '0' ELSE '1' END AS LINCOMEHOUSE_FLG` |
+| 94 | `LINCOMEHOUSE_TYPE` | `CASE WHEN B.BZXAJGCFL = '廉租住房贷款-开发贷款' THEN 'B011' WHEN B.BZXAJGCFL = '廉租住房贷款-收购贷款' THEN 'B012' WHEN B.BZXAJGCFL = '廉租住房贷款-租赁贷款' THEN 'B013' WHEN B.BZXAJGCFL = '公共租赁住房贷款-开发贷款' THEN 'B021' WHEN B.BZXAJG...` |
+| 95 | `GREEN_FLG` | `NULL AS GREEN_FLG` |
+| 96 | `VENTURE_FLG` | `NULL AS VENTURE_FLG` |
+| 97 | `VENTURE_TYPE` | `NULL AS VENTURE_TYPE` |
+| 98 | `REPORT_ID` | `SYS_GUID() AS REPORT_ID` |
+| 99 | `CJRQ` | `IS_DATE AS CJRQ` |
+| 100 | `NBJGH` | `T.ORG_NUM AS NBJGH` |
+| 101 | `BIZ_LINE_ID` | `'' AS BIZ_LINE_ID` |
+| 102 | `VERIFY_STATUS` | `'' AS VERIFY_STATUS` |
+| 103 | `BSCJRQ` | `'' AS BSCJRQ` |
+| 104 | `ORG_NUM` | `T.ORG_NUM AS ORG_NUM` |
+| 105 | `FRNBJGH` | `CASE WHEN T.ORG_NUM LIKE '51%' THEN '510000' WHEN T.ORG_NUM LIKE '52%' THEN '520000' WHEN T.ORG_NUM LIKE '53%' THEN '530000' WHEN T.ORG_NUM LIKE '54%' THEN '540000' WHEN T.ORG_NUM LIKE '55%' THEN '550...` |
+| 106 | `CURR_CODE` | `T.CURR_CD AS CURR_CODE` |
+| 107 | `BALANCE` | `T.LOAN_ACCT_BAL AS BALANCE` |
+| 108 | `CUST_NAME` | `COALESCE(C1.CUST_NAM, H.CUST_NAM) AS CUST_NAME` |
+| 109 | `CUST_ID` | `T.CUST_ID AS CUST_ID` |
+| 110 | `BALANCE_RMB` | `T.LOAN_ACCT_BAL * R.CCY_RATE AS BALANCE_RMB` |
+| 111 | `HIGH_TECH_TYPE` | `'' AS HIGH_TECH_TYPE` |
+| 112 | `HIGH_TECH_FLG` | `'' AS HIGH_TECH_FLG` |
+| 113 | `CUST_NAME` | `C1.CUST_NAM AS CUST_NAME` |
+| 114 | `DATA_DATE` | `VS_TEXT AS DATA_DATE` |
+| 115 | `(无)` | `COALESCE(OB.ID_NO, OB.UP_ID_NO)` |
+| 116 | `CONTRACT_CODE` | `T.CONTRACT_CODE AS CONTRACT_CODE` |
+| 117 | `INDIVBUSI_FLG` | `T.INDIVBUSI_FLG AS INDIVBUSI_FLG` |
+| 118 | `SMBUSI_FLG` | `T.SMBUSI_FLG AS SMBUSI_FLG` |
+| 119 | `AGRI_FLG` | `T.AGRI_FLG AS AGRI_FLG` |
+| 120 | `AGRI_TYPE` | `T.AGRI_TYPE AS AGRI_TYPE` |
+| 121 | `POORLOAN_FLG` | `T.POORLOAN_FLG AS POORLOAN_FLG` |
+| 122 | `POORPER_FLG` | `T.POORPER_FLG AS POORPER_FLG` |
+| 123 | `LGOVFIN_FLG` | `T.LGOVFIN_FLG AS LGOVFIN_FLG` |
+| 124 | `LGOV_TYPE` | `T.LGOV_TYPE AS LGOV_TYPE` |
+| 125 | `LGOV_LEVEL` | `T.LGOV_LEVEL AS LGOV_LEVEL` |
+| 126 | `LGOVCAPITAL_TYPE` | `T.LGOVCAPITAL_TYPE AS LGOVCAPITAL_TYPE` |
+| 127 | `LINCOMEHOUSE_FLG` | `T.LINCOMEHOUSE_FLG AS LINCOMEHOUSE_FLG` |
+| 128 | `LINCOMEHOUSE_TYPE` | `T.LINCOMEHOUSE_TYPE AS LINCOMEHOUSE_TYPE` |
+| 129 | `GREEN_FLG` | `T.GREEN_FLG AS GREEN_FLG` |
+| 130 | `VENTURE_FLG` | `T.VENTURE_FLG AS VENTURE_FLG` |
+| 131 | `VENTURE_TYPE` | `T.VENTURE_TYPE AS VENTURE_TYPE` |
+| 132 | `REPORT_ID` | `T.REPORT_ID AS REPORT_ID` |
+| 133 | `CJRQ` | `T.CJRQ AS CJRQ` |
+| 134 | `NBJGH` | `T.NBJGH AS NBJGH` |
+| 135 | `BIZ_LINE_ID` | `'99' AS BIZ_LINE_ID` |
+| 136 | `VERIFY_STATUS` | `T.VERIFY_STATUS AS VERIFY_STATUS` |
+| 137 | `BSCJRQ` | `T.BSCJRQ AS BSCJRQ` |
+| 138 | `FRNBJGH` | `T.FRNBJGH AS FRNBJGH` |
+| 139 | `CURR_CODE` | `T.CURR_CODE AS CURR_CODE` |
+| 140 | `BALANCE` | `T.BALANCE AS BALANCE` |
+| 141 | `CUST_NAME` | `T.CUST_NAME AS CUST_NAME` |
+| 142 | `BALANCE_RMB` | `T.BALANCE_RMB AS BALANCE_RMB` |
+| 143 | `(无)` | `T.CURR_CODE` |
+| 144 | `(无)` | `HIGH_TECH_TYPE` |
+| 145 | `(无)` | `HIGH_TECH_FLG` |
