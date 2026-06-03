@@ -5,7 +5,6 @@
 
 set -e
 
-# 获取项目根目录（脚本所在目录的父目录）
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
@@ -39,14 +38,5 @@ else
     echo "✓ skills 已链接"
 fi
 
-# --- state.db (memory) ---
-if [ -L ~/.hermes/state.db ]; then
-    echo "✓ state.db 已是软链接"
-else
-    [ -f ~/.hermes/state.db ] && mv ~/.hermes/state.db ~/.hermes/state.db.bak
-    ln -s "$PROJECT_DIR/hermes-config/state.db" ~/.hermes/state.db
-    echo "✓ state.db 已链接"
-fi
-
 echo ""
-echo "全部完成。运行 hermes doctor 验证。"
+echo "全部完成。state.db（memory）不同步，各电脑独立。"

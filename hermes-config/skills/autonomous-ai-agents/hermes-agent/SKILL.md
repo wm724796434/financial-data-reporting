@@ -860,8 +860,12 @@ has a Chinese name, use an English transliteration for the repo name.
 
 ### Multi-Machine Config Sync
 
-For syncing `~/.hermes/SOUL.md` and `~/.hermes/config.yaml` across
-multiple computers via Git soft-links, see `references/multi-machine-config-sync.md`.
+For syncing all of `~/.hermes/` across multiple computers via Git symlinks
+— SOUL.md, config.yaml, skills (26 directories, ~12MB), and state.db
+(memory, ~76MB) — with an automated setup-links.sh script. See
+`references/multi-machine-config-sync.md` for the full architecture,
+tradeoffs (state.db volume in Git), setup script, and post-commit
+auto-push hook.
 
 ---
 
