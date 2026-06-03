@@ -1,0 +1,12 @@
+mcp_servers:
+  sql-parser:
+    # 需根据实际路径调整：Hermes 自带的 Python
+    command: ~/.hermes/hermes-agent/.venv/bin/python3
+    args:
+    # 需根据实际路径调整：项目中的 MCP 脚本
+    - ./scripts/mcp_sql_parser.py
+    timeout: 30
+onboarding:
+  seen:
+    tool_progress_prompt: true
+    busy_input_prompt: true
